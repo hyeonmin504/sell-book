@@ -1,5 +1,6 @@
 package com.example.booksell;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -24,12 +25,17 @@ public class BuyPage extends AppCompatActivity {
 
     private FirebaseFirestore firestore;
     private String searchOption = "bookName";
-
+    RecyclerView recyclerView;
+    Button btn_my, btn_chat,btn_sell,btn_buy;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_buy_page);
-
+        btn_my = findViewById(R.id.btn_my);
+        btn_chat = findViewById(R.id.btn_chat);
+        btn_sell = findViewById(R.id.btn_sell);
+        btn_buy = findViewById(R.id.btn_buy);
+        recyclerView = findViewById(R.id.recyclerview);
         // Firestore 인스턴스 초기화
         firestore = FirebaseFirestore.getInstance();
 
@@ -68,6 +74,38 @@ public class BuyPage extends AppCompatActivity {
                 String keyword = searchWord.getText().toString();
                 RecyclerViewAdapter adapter = (RecyclerViewAdapter) recyclerView.getAdapter();
                 adapter.search(keyword, searchOption);
+            }
+        });
+
+        btn_buy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(BuyPage.this,BuyPage.class);
+                startActivity(intent);
+            }
+        });
+
+        btn_sell.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(BuyPage.this,SellPage.class);
+                startActivity(intent);
+            }
+        });
+
+        btn_chat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(BuyPage.this,ChatListPage.class);
+                startActivity(intent);
+            }
+        });
+
+        btn_my.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(BuyPage.this,MyPage.class);
+                startActivity(intent);
             }
         });
     }
@@ -123,6 +161,22 @@ public class BuyPage extends AppCompatActivity {
 
             bookNameTextView.setText(bookList.get(position).getBookName());
             bookAuthorTextView.setText(bookList.get(position).getBookAuthor());
+
+            // 아이템 클릭 이벤트 처리
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // 클릭한 아이템의 정보 가져오기
+                    String selectedBookName = bookList.get(position).getBookName();
+                    String selectedBookAuthor = bookList.get(position).getBookAuthor();
+
+                    // 다음 페이지로 정보 전달
+                    Intent intent = new Intent(itemView.getContext(), BookInfoPage.class);
+                    intent.putExtra("bookName", selectedBookName);
+                    intent.putExtra("bookAuthor", selectedBookAuthor);
+                    itemView.getContext().startActivity(intent);
+                }
+            });
         }
 
         @Override
@@ -143,7 +197,5 @@ public class BuyPage extends AppCompatActivity {
             bookList.addAll(searchResults);
             notifyDataSetChanged();
         }
-
-
     }
 }

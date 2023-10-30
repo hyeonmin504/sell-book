@@ -21,8 +21,6 @@ public class BookAdapter extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book_adapter);
-
-        firestore = FirebaseFirestore.getInstance();
         editTextTitle = findViewById(R.id.editTextTitle);
         editTextAuthor = findViewById(R.id.editTextAuthor);
         editTextPrice = findViewById(R.id.editTextPrice);

@@ -1,9 +1,201 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_weight="1"
+    android:orientation="vertical"
     tools:context=".BookInfoPage">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            android:text="자세한 책 정보"
+            android:textColor="@color/black"
+            android:textSize="30dp"></TextView>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#000"></View>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+                <ImageView
+                    android:id="@+id/iv_book"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/img"></ImageView>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:paddingTop="10dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="이 책의 상태"
+                    android:textColor="@color/black"
+                    android:textSize="20dp"></TextView>
+
+                <CheckBox
+                    android:id="@+id/CB_state1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="이름이 쓰여져 있나요?" />
+
+                <CheckBox
+                    android:id="@+id/CB_state2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="변색이나 얼룩이 있나요?" />
+
+                <CheckBox
+                    android:id="@+id/CB_state13"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="페이지가 훼손되어있나요?" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="이 책의 필기 상태"
+                    android:textColor="@color/black"
+                    android:textSize="20dp"></TextView>
+
+                <CheckBox
+                    android:id="@+id/CB_write1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="연필 or 샤프" />
+
+                <CheckBox
+                    android:id="@+id/CB_write2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="볼펜" />
+
+                <CheckBox
+                    android:id="@+id/CB_write3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="형광펜" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:paddingLeft="10dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="책 정보"
+                android:textColor="@color/black"
+                android:textSize="20dp"></TextView>
+
+            <TextView
+                android:id="@+id/bookNameTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="책 이름: "
+                android:textSize="20dp"
+                android:textColor="@color/black"
+                android:paddingTop="5dp"
+                ></TextView>
+
+            <TextView
+                android:id="@+id/bookAuthorTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="저자: "
+                android:textSize="20dp"
+                android:textColor="@color/black"
+                android:paddingTop="5dp"
+                ></TextView>
+
+            <TextView
+                android:id="@+id/publisherTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="출판사: "
+                android:textSize="20dp"
+                android:textColor="@color/black"
+                android:paddingTop="5dp"
+                ></TextView>
+
+            <TextView
+                android:id="@+id/publisher_dateTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="출판사: "
+                android:textSize="20dp"
+                android:textColor="@color/black"
+                android:paddingTop="5dp"
+                ></TextView>
+
+            <TextView
+                android:id="@+id/priceTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="가격: "
+                android:textSize="20dp"
+                android:textColor="@color/black"
+                android:paddingTop="5dp"
+                ></TextView>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/edt_explain"
+                android:text="판매자의 상태 설명 ↓"
+                android:textColor="@color/black"
+                android:paddingTop="5dp"
+                android:textSize="20dp"></TextView>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/btn_sub"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="판매자와 연락해보기"
+            android:layout_weight="1"></Button>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_star"
+            android:text="즐겨찾기"></Button>
+    </LinearLayout>
+</LinearLayout>
