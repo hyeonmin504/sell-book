@@ -1,73 +1,22 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    android:layout_weight="1"
-    android:orientation="vertical">
+    android:clickable="true"
+    android:background="@android:color/white">
 
-    <LinearLayout
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <TextView
+        android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1">
-
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="bottom"
-        android:layout_weight="1"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/btn_buy"
-            android:layout_width="wrap_content"
-            android:layout_height="65dp"
-            android:layout_margin="1px"
-            android:layout_weight="1"
-            android:text="검색페이지"
-            android:textSize="17dp"
-            android:background="@drawable/button_border"
-
-            />
-
-        <Button
-            android:id="@+id/btn_sell"
-            android:layout_width="wrap_content"
-            android:layout_height="65dp"
-            android:layout_margin="1px"
-            android:layout_weight="1"
-            android:text="판매페이지"
-            android:textSize="17dp"
-            android:background="@drawable/button_border"
-            />
-
-        <Button
-            android:id="@+id/btn_chat"
-            android:layout_width="wrap_content"
-            android:layout_height="65dp"
-            android:layout_margin="1px"
-            android:layout_weight="1"
-            android:text="채팅페이지"
-            android:textSize="17dp"
-            android:background="@drawable/button_border"
-
-            />
-
-
-        <Button
-            android:id="@+id/btn_my"
-            android:layout_width="wrap_content"
-            android:layout_height="65dp"
-            android:layout_margin="1px"
-            android:layout_weight="1"
-            android:text="마이페이지"
-            android:textSize="17dp"
-            android:background="@drawable/button_border"
-            />
-
-    </LinearLayout>
-</LinearLayout>
+        android:layout_alignBottom="@id/viewPager"
+        android:background="#80000000"
+        android:padding="16dp"
+        android:text="여기를 클릭해주세요."
+        android:textColor="#FFFFFF" />
+</RelativeLayout>
