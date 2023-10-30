@@ -76,7 +76,7 @@
                     android:text="변색이나 얼룩이 있나요?" />
 
                 <CheckBox
-                    android:id="@+id/CB_state13"
+                    android:id="@+id/CB_state3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="페이지가 훼손되어있나요?" />
@@ -158,7 +158,7 @@
                 android:id="@+id/publisher_dateTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="출판사: "
+                android:text="출판일: "
                 android:textSize="20dp"
                 android:textColor="@color/black"
                 android:paddingTop="5dp"
@@ -177,7 +177,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/edt_explain"
+                android:id="@+id/stateTextView"
                 android:text="판매자의 상태 설명 ↓"
                 android:textColor="@color/black"
                 android:paddingTop="5dp"

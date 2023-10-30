@@ -16,9 +16,6 @@
             android:name=".ChatActivity"
             android:exported="false" />
         <activity
-            android:name=".BookAdapter"
-            android:exported="false" />
-        <activity
             android:name=".SellBook"
             android:exported="false" />
         <activity

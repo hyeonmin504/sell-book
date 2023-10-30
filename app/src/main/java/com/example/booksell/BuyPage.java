@@ -159,16 +159,16 @@ public class BuyPage extends AppCompatActivity {
             TextView bookNameTextView = itemView.findViewById(R.id.name);
             TextView bookAuthorTextView = itemView.findViewById(R.id.person);
 
-            bookNameTextView.setText(bookList.get(position).getBookName());
-            bookAuthorTextView.setText(bookList.get(position).getBookAuthor());
+            bookNameTextView.setText(bookList.get(holder.getAdapterPosition()).getBookName());
+            bookAuthorTextView.setText(bookList.get(holder.getAdapterPosition()).getBookAuthor());
 
             // 아이템 클릭 이벤트 처리
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     // 클릭한 아이템의 정보 가져오기
-                    String selectedBookName = bookList.get(position).getBookName();
-                    String selectedBookAuthor = bookList.get(position).getBookAuthor();
+                    String selectedBookName = bookList.get(holder.getAdapterPosition()).getBookName();
+                    String selectedBookAuthor = bookList.get(holder.getAdapterPosition()).getBookAuthor();
 
                     // 다음 페이지로 정보 전달
                     Intent intent = new Intent(itemView.getContext(), BookInfoPage.class);

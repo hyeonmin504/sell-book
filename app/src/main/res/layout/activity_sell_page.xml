@@ -76,7 +76,7 @@
                     android:text="변색이나 얼룩이 있나요?" />
 
                 <CheckBox
-                    android:id="@+id/CB_state13"
+                    android:id="@+id/CB_state3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="페이지가 훼손되어있나요?" />
@@ -135,13 +135,13 @@
                     android:hint="저자"></EditText>
 
                 <EditText
-                    android:id="@+id/edt_publisher"
+                    android:id="@+id/publisher"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="출판사"></EditText>
 
                 <EditText
-                    android:id="@+id/edt_publisher_date"
+                    android:id="@+id/publisher_date"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="출판일 (ex. 20000504)"></EditText>
@@ -160,7 +160,7 @@
                     android:textSize="20dp"></TextView>
 
                 <EditText
-                    android:id="@+id/edt_explain"
+                    android:id="@+id/state"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="책의 정보를 써주세요"></EditText>

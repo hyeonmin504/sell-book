@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.net.Uri;
 import android.util.Log;
@@ -27,8 +28,9 @@ public class SellPage extends AppCompatActivity {
     private FirebaseFirestore firestore;
     Button btn_my, btn_chat,btn_sell,btn_buy;
     private Button btn_sub;
-    EditText edt_publisher,edt_publisher_date;
+    EditText edt_publisher,edt_publisher_date,edt_state;
     private EditText edt_bookname,edt_writer,edt_price;
+    CheckBox CB_state1,CB_state2,CB_state3,CB_write1,CB_write2,CB_write3;
     private final String TAG = this.getClass().getSimpleName();
     ImageView imageview;
     @Override
@@ -43,9 +45,17 @@ public class SellPage extends AppCompatActivity {
         btn_sub = findViewById(R.id.btn_sub);
         edt_bookname = findViewById(R.id.edt_bookname);
         edt_writer = findViewById(R.id.edt_writer);
-        edt_publisher = findViewById(R.id.edt_publisher);
-        edt_publisher_date = findViewById(R.id.edt_publisher_date);
+        edt_publisher = findViewById(R.id.publisher);
+        edt_publisher_date = findViewById(R.id.publisher_date);
+        edt_state = findViewById(R.id.state);
         edt_price = findViewById(R.id.edt_price);
+        CB_state1 = findViewById(R.id.CB_state1);
+        CB_state2 = findViewById(R.id.CB_state2);
+        CB_state3 = findViewById(R.id.CB_state3);
+        CB_write1 = findViewById(R.id.CB_write1);
+        CB_write2 = findViewById(R.id.CB_write2);
+        CB_write3 = findViewById(R.id.CB_write3);
+
 
         imageview = findViewById(R.id.iv_book);
 
@@ -55,9 +65,18 @@ public class SellPage extends AppCompatActivity {
                 String bookName = edt_bookname.getText().toString();
                 String bookAuthor =  edt_writer.getText().toString();
                 double price = Double.parseDouble(edt_price.getText().toString());
-
+                String publisher =  edt_publisher.getText().toString();
+                String publisher_date =  edt_publisher_date.getText().toString();
+                String state =  edt_state.getText().toString();
+                boolean state1 = CB_state1.isChecked();
+                boolean state2 = CB_state2.isChecked();
+                boolean state3 = CB_state3.isChecked();
+                boolean write1 = CB_write1.isChecked();
+                boolean write2 = CB_write2.isChecked();
+                boolean write3 = CB_write3.isChecked();
                 // 데이터를 Firestore에 업로드
-                uploadBookData(bookName, bookAuthor, price);
+                uploadBookData(bookName, bookAuthor, price, publisher, publisher_date, state,
+                        state1, state2, state3, write1, write2, write3);
             }
         });
         ActivityResultLauncher<Intent> launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),new ActivityResultCallback<ActivityResult>(){
@@ -119,9 +138,10 @@ public class SellPage extends AppCompatActivity {
         });
     }
 
-    private void uploadBookData(String title, String author, double price) {
+    private void uploadBookData(String title, String author, double price, String publisher, String publisher_date, String state,
+                                boolean state1, boolean state2, boolean state3, boolean write1, boolean write2, boolean write3) {
         // Firestore에 업로드할 데이터 생성
-        Book book = new Book(title, author); // Book 클래스의 생성자에 title과 author 전달
+        Book book = new Book(title, author, price, publisher, publisher_date, state, state1, state2, state3, write1, write2, write3); // Book 클래스의 생성자에 title과 author 전달
 
         // Firestore에 데이터 업로드
         firestore.collection("bookInfo")
