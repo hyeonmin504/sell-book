@@ -4,6 +4,9 @@ public class Book {
     private String bookName;
     private String bookAuthor;
 
+    private int imageResource;
+    private String title;
+    private String date;
     public Book() {
     }
 

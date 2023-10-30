@@ -23,7 +23,7 @@ import java.util.ArrayList;
 public class BuyPage extends AppCompatActivity {
 
     private FirebaseFirestore firestore;
-    private String searchOption = "name";
+    private String searchOption = "bookName";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,10 +45,10 @@ public class BuyPage extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 switch (position) {
                     case 0: // "이름" 선택
-                        searchOption = "name";
+                        searchOption = "bookName";
                         break;
                     case 1: // "번호" 선택
-                        searchOption = "phoneNumber";
+                        searchOption = "bookAuthor";
                         break;
                 }
             }
@@ -67,7 +67,7 @@ public class BuyPage extends AppCompatActivity {
             public void onClick(View v) {
                 String keyword = searchWord.getText().toString();
                 RecyclerViewAdapter adapter = (RecyclerViewAdapter) recyclerView.getAdapter();
-                adapter.search(keyword);
+                adapter.search(keyword, searchOption);
             }
         });
     }
@@ -130,10 +130,12 @@ public class BuyPage extends AppCompatActivity {
             return bookList.size();
         }
 
-        public void search(String keyword) {
+        public void search(String keyword, String searchOption) {
             ArrayList<Book> searchResults = new ArrayList<>();
             for (Book book : originalBookList) {
-                if (book.getBookName().contains(keyword) || book.getBookAuthor().contains(keyword)) {
+                if (searchOption.equals("bookName") && (book.getBookName().toLowerCase().contains(keyword.toLowerCase()))) {
+                    searchResults.add(book);
+                } else if (searchOption.equals("bookAuthor") && (book.getBookAuthor().toLowerCase().contains(keyword.toLowerCase()))) {
                     searchResults.add(book);
                 }
             }
@@ -141,5 +143,7 @@ public class BuyPage extends AppCompatActivity {
             bookList.addAll(searchResults);
             notifyDataSetChanged();
         }
+
+
     }
 }
