@@ -45,7 +45,7 @@ public class ChatListPage extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // 클릭된 항목에 따라 원하는 작업 수행
                 if (position == 0) {
-                    Intent intent = new Intent(ChatListPage.this, SellBook.class);
+                    Intent intent = new Intent(ChatListPage.this, ChatActivity.class);
                     startActivity(intent);
                 } else if (position == 1) {
                     Intent intent = new Intent(ChatListPage.this, FavoriteBook.class);
@@ -57,7 +57,7 @@ public class ChatListPage extends AppCompatActivity {
         btn_buy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(ChatListPage.this,BuyPage.class);
+                Intent intent = new Intent(ChatListPage.this, BuyPage.class);
                 startActivity(intent);
             }
         });

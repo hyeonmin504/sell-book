@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
         btn_sell.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this,SellPage.class);
+                Intent intent = new Intent(MainActivity.this,BookAdapter.class);
                 startActivity(intent);
             }
         });
