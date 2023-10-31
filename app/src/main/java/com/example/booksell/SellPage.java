@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.net.Uri;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
@@ -153,10 +154,13 @@ public class SellPage extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // 업로드 성공
                             // 필요한 처리를 수행하세요
+                            Toast.makeText(getApplicationContext(), "제출 완료되었습니다!", Toast.LENGTH_LONG).show();
 
                         } else {
                             // 업로드 실패
                             // 오류 처리를 수행하세요
+                            Toast.makeText(getApplicationContext(), "제출 중 오류가 발생했습니다!", Toast.LENGTH_LONG).show();
+
                         }
                     }
                 });
