@@ -2,6 +2,6 @@
 <resources>
     <string-array name="option">
         <item>책 이름</item>
-        <item>책 저자</item>
+        <item>담당 교수</item>
     </string-array>
 </resources>

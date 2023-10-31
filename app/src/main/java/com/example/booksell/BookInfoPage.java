@@ -47,7 +47,8 @@ public class BookInfoPage extends AppCompatActivity {
         btn_star.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // 별표 토글 기능 또는 다른 동작을 추가하세요
+                Intent intent = new Intent(view.getContext(), FavoriteBook.class);
+                view.getContext().startActivity(intent);
             }
         });
 
@@ -61,7 +62,7 @@ public class BookInfoPage extends AppCompatActivity {
         TextView bookAuthorTextView = findViewById(R.id.bookAuthorTextView);
 
         bookNameTextView.setText("책 이름: " + bookName);
-        bookAuthorTextView.setText("저자: " + bookAuthor);
+        bookAuthorTextView.setText("담당교수: " + bookAuthor);
 
         // Firestore에서 책 가격(bookPrice) 가져오기
         firestore.collection("bookInfo")

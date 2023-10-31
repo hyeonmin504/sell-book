@@ -47,6 +47,9 @@ public class MyPage extends AppCompatActivity {
                 } else if (position == 1) {
                     Intent intent = new Intent(MyPage.this, FavoriteBook.class);
                     startActivity(intent);
+                } else if (position == 2 || position == 3 || position == 4 || position == 5){
+                    Intent intent = new Intent(MyPage.this, Before_constructionpage.class);
+                    startActivity(intent);
                 }
             }
         });

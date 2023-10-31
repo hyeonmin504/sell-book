@@ -138,7 +138,7 @@
                 android:id="@+id/bookAuthorTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="저자: "
+                android:text="담당교수: "
                 android:textSize="20dp"
                 android:textColor="@color/black"
                 android:paddingTop="5dp"

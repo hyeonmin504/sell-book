@@ -132,7 +132,7 @@
                     android:id="@+id/edt_writer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="저자"></EditText>
+                    android:hint="담당 교수"></EditText>
 
                 <EditText
                     android:id="@+id/publisher"
