@@ -47,8 +47,8 @@ public class ChatListPage extends AppCompatActivity {
                 if (position == 0) {
                     Intent intent = new Intent(ChatListPage.this, ChatActivity.class);
                     startActivity(intent);
-                } else if (position == 1) {
-                    Intent intent = new Intent(ChatListPage.this, FavoriteBook.class);
+                } else if (position == 1 || position == 2|| position == 3|| position == 4|| position == 5) {
+                    Intent intent = new Intent(ChatListPage.this, Before_constructionpage.class);
                     startActivity(intent);
                 }
             }

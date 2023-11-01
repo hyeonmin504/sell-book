@@ -29,7 +29,7 @@ public class ChatActivity extends AppCompatActivity {
     private List<ChatData> chatList;
     private String nick = "kim";
     private EditText EditText_chat;
-    private Button Button_send;
+    private Button Button_send,btn_back;
     private DatabaseReference myRef;
 
     @Override
@@ -39,7 +39,7 @@ public class ChatActivity extends AppCompatActivity {
 
         Button_send = findViewById(R.id.Button_send);
         EditText_chat = findViewById(R.id.EditText_chat);
-
+        btn_back = findViewById(R.id.btn_back);
         Button_send.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -50,6 +50,13 @@ public class ChatActivity extends AppCompatActivity {
                     chat.setMsg(msg);
                     myRef.push().setValue(chat);
                 }
+            }
+        });
+
+        btn_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
             }
         });
 
