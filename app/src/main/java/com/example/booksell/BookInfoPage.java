@@ -2,6 +2,7 @@ package com.example.booksell;
 
 import static android.content.ContentValues.TAG;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -13,7 +14,10 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -44,13 +48,6 @@ public class BookInfoPage extends AppCompatActivity {
             }
         });
 
-        btn_star.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), FavoriteBook.class);
-                view.getContext().startActivity(intent);
-            }
-        });
 
         // 정보 받아오기
         Intent intent = getIntent();
@@ -63,6 +60,36 @@ public class BookInfoPage extends AppCompatActivity {
 
         bookNameTextView.setText("책 이름: " + bookName);
         bookAuthorTextView.setText("담당교수: " + bookAuthor);
+
+        btn_star.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Firestore에서 favorite 컬렉션에 책 정보 추가
+                FavoriteBookInfo favoriteBookInfo = new FavoriteBookInfo(bookName, bookAuthor);
+
+                firestore.collection("favorite")
+                        .add(favoriteBookInfo)
+                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                            @Override
+                            public void onSuccess(DocumentReference documentReference) {
+                                // 성공적으로 추가된 경우
+                                Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                // 추가 실패한 경우
+                                Log.w(TAG, "Error adding document", e);
+                            }
+                        });
+                // 즐겨찾기 버튼을 클릭했을 때 FavoriteBook 페이지로 이동하는 인텐트 생성
+                Intent favoriteBookIntent = new Intent(BookInfoPage.this, FavoriteBook.class);
+
+                // FavoriteBook 페이지로 이동
+                startActivity(favoriteBookIntent);
+            }
+        });
 
         // Firestore에서 책 가격(bookPrice) 가져오기
         firestore.collection("bookInfo")

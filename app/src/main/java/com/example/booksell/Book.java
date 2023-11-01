@@ -11,6 +11,11 @@ public class Book {
     public Book() {
     }
 
+    public Book(String title, String author){
+        this.bookName = title;
+        this.bookAuthor = author;
+    }
+
     public Book(String title, String author, double price, String publisher, String publisher_date, String state,
                 boolean state1, boolean state2, boolean state3, boolean write1, boolean write2, boolean write3) {
         this.bookName = title;

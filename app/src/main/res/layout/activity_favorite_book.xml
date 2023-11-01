@@ -48,7 +48,6 @@
             android:layout_height="wrap_content"
             android:gravity="end"
             android:paddingRight="20dp">
-
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -58,10 +57,10 @@
 
     </LinearLayout>
 
-    <ListView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:id="@+id/Lv_fav"></ListView>
+        android:layout_height="wrap_content"
+        android:layout_weight="1"/>
 
 </LinearLayout>
