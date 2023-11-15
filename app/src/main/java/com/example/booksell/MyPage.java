@@ -4,15 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.opengl.Visibility;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -93,7 +90,10 @@ public class MyPage extends AppCompatActivity {
                 } else if (position == 1) {
                     Intent intent = new Intent(MyPage.this, FavoriteBook.class);
                     startActivity(intent);
-                } else if (position == 2 || position == 3 || position == 4 || position == 5){
+                } else if (position == 2){
+                    Intent intent = new Intent(MyPage.this, MyInfo.class);
+                    startActivity(intent);
+                } else if(position == 3 || position == 4 || position == 5){
                     Intent intent = new Intent(MyPage.this, Before_constructionpage.class);
                     startActivity(intent);
                 } else if( position == 6){
