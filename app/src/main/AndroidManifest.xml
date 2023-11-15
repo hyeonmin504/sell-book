@@ -13,6 +13,12 @@
         android:theme="@style/Theme.Booksell"
         tools:targetApi="31">
         <activity
+            android:name=".Signup"
+            android:exported="false" />
+        <activity
+            android:name=".loginActivity"
+            android:exported="false" />
+        <activity
             android:name=".Before_constructionpage"
             android:exported="false" />
         <activity

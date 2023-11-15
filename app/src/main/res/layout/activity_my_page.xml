@@ -31,12 +31,31 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:orientation="vertical">
 
+        <!-- 로그인 버튼 -->
+        <TextView
+            android:id="@+id/tv_login"
+            android:layout_width="wrap_content"
+            android:layout_height="65dp"
+            android:layout_margin="1px"
+            android:layout_weight="1"
+            android:text="로그인을 해주세요"
+            android:textSize="17dp"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:textColor="#0000FF"
+            android:visibility="visible"
+            />
+
+        <!-- 리스트뷰 (사용자가 로그인한 경우에만 표시) -->
         <ListView
             android:id="@+id/Lv_mypage"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"></ListView>
+            android:layout_height="match_parent"
+            android:visibility="gone"> <!-- 초기에는 숨깁니다. -->
+        </ListView>
     </LinearLayout>
 
     <LinearLayout
