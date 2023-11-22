@@ -14,16 +14,25 @@ import java.util.List;
 public class FavoriteBookAdapter extends RecyclerView.Adapter<FavoriteBookAdapter.ViewHolder> {
     private List<FavoriteBookInfo> bookList;
     private OnItemClickListener onItemClickListener; // 클릭 리스너 인터페이스
+    private OnItemLongClickListener onItemLongClickListener;
 
 
     // 인터페이스 정의
     public interface OnItemClickListener {
         void onItemClick(FavoriteBookInfo bookInfo);
     }
+    public interface OnItemLongClickListener {
+        void onItemLongClick(FavoriteBookInfo bookInfo);
+    }
 
     // 클릭 리스너 설정 메서드
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.onItemClickListener = listener;
+    }
+
+    // 롱클릭 리스너 설정 메서드
+    public void setOnItemLongClickListener(OnItemLongClickListener listener) {
+        this.onItemLongClickListener = listener;
     }
 
     public FavoriteBookAdapter(List<FavoriteBookInfo> bookList) {

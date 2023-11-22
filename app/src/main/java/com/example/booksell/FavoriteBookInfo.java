@@ -4,6 +4,7 @@ public class FavoriteBookInfo {
     private String bookName;
     private String bookAuthor;
     private String email;
+    private String documentId;
 
     public String getEmail() {
         return email;
@@ -17,6 +18,14 @@ public class FavoriteBookInfo {
         this.bookName = bookName;
         this.bookAuthor = bookAuthor;
         this.email = email;
+    }
+
+    public void setDocumentId(String documentId) {
+        this.documentId = documentId;
+    }
+
+    public String getDocumentId() {
+        return documentId;
     }
 
     public String getBookName() {
