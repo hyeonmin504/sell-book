@@ -76,7 +76,7 @@ public class loginActivity extends AppCompatActivity {
                                                             editor.putString("email", email);
                                                             editor.putString("nickname", nickname);
                                                             editor.apply();
-// 로그인 성공
+                                                            // 로그인 성공
                                                             Toast.makeText(loginActivity.this, "로그인 성공", Toast.LENGTH_SHORT).show();
                                                             // 로그인 성공 시 MyPage 액티비티로 이동
                                                             Intent intent = new Intent(loginActivity.this, MyPage.class);

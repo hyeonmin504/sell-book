@@ -40,7 +40,6 @@ public class MyInfo extends AppCompatActivity {
             String email = preferences.getString("email", ""); // 이메일 가져오기
             String nickname = preferences.getString("nickname", ""); // 닉네임 가져오기
 
-            // Firestore에서 책 가격(bookPrice) 가져오기
             firestore.collection("users")
                     .whereEqualTo("email", email)
                     .whereEqualTo("nickname", nickname)

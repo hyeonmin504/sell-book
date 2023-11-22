@@ -3,6 +3,7 @@ package com.example.booksell;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 
@@ -12,6 +13,18 @@ import java.util.List;
 
 public class FavoriteBookAdapter extends RecyclerView.Adapter<FavoriteBookAdapter.ViewHolder> {
     private List<FavoriteBookInfo> bookList;
+    private OnItemClickListener onItemClickListener; // 클릭 리스너 인터페이스
+
+
+    // 인터페이스 정의
+    public interface OnItemClickListener {
+        void onItemClick(FavoriteBookInfo bookInfo);
+    }
+
+    // 클릭 리스너 설정 메서드
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.onItemClickListener = listener;
+    }
 
     public FavoriteBookAdapter(List<FavoriteBookInfo> bookList) {
         this.bookList = bookList;
@@ -34,7 +47,17 @@ public class FavoriteBookAdapter extends RecyclerView.Adapter<FavoriteBookAdapte
         FavoriteBookInfo bookInfo = bookList.get(position);
         holder.bookNameTextView.setText(bookInfo.getBookName());
         holder.bookAuthorTextView.setText(bookInfo.getBookAuthor());
-        // 필요한 다른 필드를 여기에 설정할 수 있습니다.
+
+        // 클릭 이벤트 처리
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 인터페이스를 통해 클릭 이벤트를 외부로 전달
+                if (onItemClickListener != null) {
+                    onItemClickListener.onItemClick(bookInfo);
+                }
+            }
+        });
     }
 
     @Override

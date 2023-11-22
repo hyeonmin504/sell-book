@@ -1,7 +1,10 @@
 package com.example.booksell;
 
+import android.util.Log;
+
 public class Book {
     private String bookName;
+    private String email;
     private String bookAuthor;
     private String publisher, publisher_date,state;
     private double bookPrice;
@@ -17,7 +20,7 @@ public class Book {
     }
 
     public Book(String title, String author, double price, String publisher, String publisher_date, String state,
-                boolean state1, boolean state2, boolean state3, boolean write1, boolean write2, boolean write3) {
+                boolean state1, boolean state2, boolean state3, boolean write1, boolean write2, boolean write3,String email) {
         this.bookName = title;
         this.bookAuthor = author;
         this.bookPrice = price;
@@ -30,7 +33,11 @@ public class Book {
         this.write1 = write1;
         this.write2 = write2;
         this.write3 = write3;
+        this.email = email;
+        Log.d("이메일", "사용자의 이메일: " + email);
+
     }
+
 
     public String getBookName() {
         return bookName;
@@ -46,6 +53,14 @@ public class Book {
 
     public void setBookAuthor(String bookAuthor) {
         this.bookAuthor = bookAuthor;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public double getBookPrice() {

@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -28,6 +29,7 @@ public class BookInfoPage extends AppCompatActivity {
 
     // Firestore 관련
     private FirebaseFirestore firestore;
+    boolean isLoggedIn = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +41,8 @@ public class BookInfoPage extends AppCompatActivity {
 
         btn_star = findViewById(R.id.btn_star);
         btn_sub = findViewById(R.id.btn_sub);
+        SharedPreferences preferences = getSharedPreferences("user_prefs", MODE_PRIVATE);
+        isLoggedIn = preferences.getBoolean("isLoggedIn", false);
 
         btn_sub.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,12 +64,13 @@ public class BookInfoPage extends AppCompatActivity {
 
         bookNameTextView.setText("책 이름: " + bookName);
         bookAuthorTextView.setText("담당교수: " + bookAuthor);
+        String email = preferences.getString("email","");
 
         btn_star.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // Firestore에서 favorite 컬렉션에 책 정보 추가
-                FavoriteBookInfo favoriteBookInfo = new FavoriteBookInfo(bookName, bookAuthor);
+                FavoriteBookInfo favoriteBookInfo = new FavoriteBookInfo(bookName, bookAuthor,email);
 
                 firestore.collection("favorite")
                         .add(favoriteBookInfo)

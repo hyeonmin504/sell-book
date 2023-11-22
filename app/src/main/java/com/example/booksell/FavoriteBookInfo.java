@@ -3,16 +3,20 @@ package com.example.booksell;
 public class FavoriteBookInfo {
     private String bookName;
     private String bookAuthor;
-    // 다른 필요한 필드 추가
+    private String email;
+
+    public String getEmail() {
+        return email;
+    }
 
     public FavoriteBookInfo() {
         // 기본 생성자
     }
 
-    public FavoriteBookInfo(String bookName, String bookAuthor) {
+    public FavoriteBookInfo(String bookName, String bookAuthor,String email) {
         this.bookName = bookName;
         this.bookAuthor = bookAuthor;
-        // 다른 필드 초기화
+        this.email = email;
     }
 
     public String getBookName() {

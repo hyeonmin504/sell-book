@@ -1,5 +1,6 @@
 package com.example.booksell;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -27,10 +28,11 @@ public class ChatActivity extends AppCompatActivity {
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private List<ChatData> chatList;
-    private String nick = "lee";
+    private String nick;
     private EditText EditText_chat;
     private Button Button_send,btn_back;
     private DatabaseReference myRef;
+    boolean isLoggedIn = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -40,6 +42,13 @@ public class ChatActivity extends AppCompatActivity {
         Button_send = findViewById(R.id.Button_send);
         EditText_chat = findViewById(R.id.EditText_chat);
         btn_back = findViewById(R.id.btn_back);
+
+        SharedPreferences preferences = getSharedPreferences("user_prefs", MODE_PRIVATE);
+        isLoggedIn = preferences.getBoolean("isLoggedIn", false);
+        String nickname = preferences.getString("nickname","");
+        nick = nickname;
+
+
         Button_send.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {

@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -34,6 +35,7 @@ public class SellPage extends AppCompatActivity {
     CheckBox CB_state1,CB_state2,CB_state3,CB_write1,CB_write2,CB_write3;
     private final String TAG = this.getClass().getSimpleName();
     ImageView imageview;
+    boolean isLoggedIn = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,26 +60,36 @@ public class SellPage extends AppCompatActivity {
         CB_write3 = findViewById(R.id.CB_write3);
 
 
+        // SharedPreferences를 통해 로그인 상태와 사용자 정보 가져오기
+        SharedPreferences preferences = getSharedPreferences("user_prefs", MODE_PRIVATE);
+        isLoggedIn = preferences.getBoolean("isLoggedIn", false);
+
         imageview = findViewById(R.id.iv_book);
 
         btn_sub.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String bookName = edt_bookname.getText().toString();
-                String bookAuthor =  edt_writer.getText().toString();
-                double price = Double.parseDouble(edt_price.getText().toString());
-                String publisher =  edt_publisher.getText().toString();
-                String publisher_date =  edt_publisher_date.getText().toString();
-                String state =  edt_state.getText().toString();
-                boolean state1 = CB_state1.isChecked();
-                boolean state2 = CB_state2.isChecked();
-                boolean state3 = CB_state3.isChecked();
-                boolean write1 = CB_write1.isChecked();
-                boolean write2 = CB_write2.isChecked();
-                boolean write3 = CB_write3.isChecked();
-                // 데이터를 Firestore에 업로드
-                uploadBookData(bookName, bookAuthor, price, publisher, publisher_date, state,
-                        state1, state2, state3, write1, write2, write3);
+                if(isLoggedIn) {
+                    String bookName = edt_bookname.getText().toString();
+                    String bookAuthor = edt_writer.getText().toString();
+                    double price = Double.parseDouble(edt_price.getText().toString());
+                    String publisher = edt_publisher.getText().toString();
+                    String publisher_date = edt_publisher_date.getText().toString();
+                    String state = edt_state.getText().toString();
+                    boolean state1 = CB_state1.isChecked();
+                    boolean state2 = CB_state2.isChecked();
+                    boolean state3 = CB_state3.isChecked();
+                    boolean write1 = CB_write1.isChecked();
+                    boolean write2 = CB_write2.isChecked();
+                    boolean write3 = CB_write3.isChecked();
+                    String email = preferences.getString("email","");
+                    Log.d(email, "onClick: ");
+                    // 데이터를 Firestore에 업로드
+                    uploadBookData(bookName, bookAuthor, price, publisher, publisher_date, state,
+                            state1, state2, state3, write1, write2, write3,email);
+                }else {
+                    Toast.makeText(SellPage.this, "로그인을 해주세요", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         ActivityResultLauncher<Intent> launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),new ActivityResultCallback<ActivityResult>(){
@@ -140,9 +152,9 @@ public class SellPage extends AppCompatActivity {
     }
 
     private void uploadBookData(String title, String author, double price, String publisher, String publisher_date, String state,
-                                boolean state1, boolean state2, boolean state3, boolean write1, boolean write2, boolean write3) {
+                                boolean state1, boolean state2, boolean state3, boolean write1, boolean write2, boolean write3, String email) {
         // Firestore에 업로드할 데이터 생성
-        Book book = new Book(title, author, price, publisher, publisher_date, state, state1, state2, state3, write1, write2, write3); // Book 클래스의 생성자에 title과 author 전달
+        Book book = new Book(title, author, price, publisher, publisher_date, state, state1, state2, state3, write1, write2, write3,email); // Book 클래스의 생성자에 title과 author 전달
 
         // Firestore에 데이터 업로드
         firestore.collection("bookInfo")
