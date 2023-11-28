@@ -1,7 +1,5 @@
-<!-- res/layout/item_chat_room.xml -->
-
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -23,9 +21,9 @@
         android:textSize="14sp"/>
 
     <TextView
-        android:id="@+id/buyerTextView"
+        android:id="@+id/priceTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="구매자: "
+        android:text="가격: "
         android:textSize="14sp"/>
 </LinearLayout>
