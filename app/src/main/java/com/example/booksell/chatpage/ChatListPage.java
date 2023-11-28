@@ -1,6 +1,8 @@
 package com.example.booksell.chatpage;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -8,6 +10,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -21,10 +25,11 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class ChatListPage extends AppCompatActivity {
-    Button btn_my, btn_chat,btn_sell,btn_buy;
+    Button btn_my, btn_chat, btn_sell, btn_buy;
     RecyclerView recyclerView;
     ChatRoomAdapter adapter;
     List<ChatRoom> chatRooms;
@@ -33,6 +38,11 @@ public class ChatListPage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_list_page);
+
+        // 툴바를 액티비티에 설정
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("채팅 List");
 
         recyclerView = findViewById(R.id.rv);
         btn_my = findViewById(R.id.btn_my);
@@ -57,7 +67,7 @@ public class ChatListPage extends AppCompatActivity {
         }
 
         // 데이터 가져오기
-        getChatRooms();
+        filterSellingChats();
 
         btn_buy.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,7 +101,34 @@ public class ChatListPage extends AppCompatActivity {
             }
         });
     }
-    // 채팅방 정보를 파이어베이스에 저장하는 메서드
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // 메뉴 인플레이터를 사용하여 메뉴를 만듭니다.
+        getMenuInflater().inflate(R.menu.menu_chat_list, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // 메뉴 아이템 선택에 대한 처리를 여기에 추가합니다.
+        int id = item.getItemId();
+
+        switch (id) {
+            case R.id.menu_filter_selling:
+                // Selling Chats 메뉴 선택 시
+                filterSellingChats();
+                return true;
+
+            case R.id.menu_filter_buying:
+                // Buying Chats 메뉴 선택 시
+                filterBuyingChats();
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
 // 채팅방 정보를 파이어베이스에 저장하는 메서드
     private void saveChatRoomInfo(String seller, String bookName, String buyer) {
         FirebaseFirestore firestore = FirebaseFirestore.getInstance();
@@ -117,7 +154,7 @@ public class ChatListPage extends AppCompatActivity {
                                         Toast.makeText(ChatListPage.this, "채팅방 생성 완료", Toast.LENGTH_SHORT).show();
 
                                         // 저장 후에 목록을 갱신
-                                        getChatRooms();
+                                        filterBuyingChats();
                                     })
                                     .addOnFailureListener(e -> {
                                         // 저장 실패한 경우
@@ -135,22 +172,17 @@ public class ChatListPage extends AppCompatActivity {
                 });
     }
 
-    // 데이터 가져오기
-    private void getChatRooms() {
+    // 판매 중인 채팅을 가져오는 메서드
+    private void filterSellingChats() {
         FirebaseFirestore firestore = FirebaseFirestore.getInstance();
         CollectionReference chatRoomsCollection = firestore.collection("chatRoomNum");
         SharedPreferences preferences = getSharedPreferences("user_prefs", MODE_PRIVATE);
-        // preferences 객체를 사용하여 현재 로그인한 사용자의 이메일을 가져옴
         String currentUserEmail = preferences.getString("email", "");
 
-        Log.d("ChatListPage", "getChatRooms: " + currentUserEmail);
-        // 이메일이 같은 데이터만 필터링
         chatRoomsCollection
-                .whereEqualTo("buyer", currentUserEmail)
+                .whereEqualTo("seller", currentUserEmail)
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
-                    Log.d("ChatListPage", "onSuccess called");
-
                     chatRooms.clear();
                     for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
                         ChatRoom chatRoom = documentSnapshot.toObject(ChatRoom.class);
@@ -163,4 +195,26 @@ public class ChatListPage extends AppCompatActivity {
                 });
     }
 
+    // 구매 중인 채팅을 가져오는 메서드
+    private void filterBuyingChats() {
+        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+        CollectionReference chatRoomsCollection = firestore.collection("chatRoomNum");
+        SharedPreferences preferences = getSharedPreferences("user_prefs", MODE_PRIVATE);
+        String currentUserEmail = preferences.getString("email", "");
+
+        chatRoomsCollection
+                .whereEqualTo("buyer", currentUserEmail)
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    chatRooms.clear();
+                    for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                        ChatRoom chatRoom = documentSnapshot.toObject(ChatRoom.class);
+                        chatRooms.add(chatRoom);
+                    }
+                    adapter.notifyDataSetChanged();
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(ChatListPage.this, "데이터를 가져오지 못했습니다.", Toast.LENGTH_SHORT).show();
+                });
+    }
 }

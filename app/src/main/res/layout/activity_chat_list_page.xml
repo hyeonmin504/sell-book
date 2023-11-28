@@ -3,36 +3,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    android:layout_weight="1"
     android:orientation="vertical">
 
-    <LinearLayout
+    <!-- 툴바 추가 -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="채팅"
-            android:textSize="30dp"
-            android:gravity="center"
-            android:paddingTop="15dp"
-            android:paddingBottom="15dp"
-            android:textColor="@color/black">
-        </TextView>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#000"></View>
-    </LinearLayout>
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/wood"
+        android:title="@string/chat" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#000" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"/>
+        android:layout_height="0dp"
+        android:layout_weight="1" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -42,51 +31,43 @@
 
         <Button
             android:id="@+id/btn_buy"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="65dp"
             android:layout_margin="1px"
             android:layout_weight="1"
             android:text="검색페이지"
             android:textSize="17dp"
-            android:background="@drawable/button_border"
-
-            />
+            android:background="@drawable/button_border" />
 
         <Button
             android:id="@+id/btn_sell"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="65dp"
             android:layout_margin="1px"
             android:layout_weight="1"
             android:text="판매페이지"
             android:textSize="17dp"
-            android:background="@drawable/button_border"
-            />
+            android:background="@drawable/button_border" />
 
         <Button
             android:id="@+id/btn_chat"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="65dp"
             android:layout_margin="1px"
             android:layout_weight="1"
             android:text="채팅페이지"
             android:textSize="17dp"
-            android:background="@drawable/button_border"
-
-            />
-
+            android:background="@drawable/button_border" />
 
         <Button
             android:id="@+id/btn_my"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="65dp"
             android:layout_margin="1px"
             android:layout_weight="1"
             android:text="마이페이지"
             android:textSize="17dp"
-            android:background="@drawable/button_border"
-            />
+            android:background="@drawable/button_border" />
 
     </LinearLayout>
-
 </LinearLayout>

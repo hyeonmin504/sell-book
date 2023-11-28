@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">booksell</string>
+    <string name="chat">채팅</string>
+
 </resources>

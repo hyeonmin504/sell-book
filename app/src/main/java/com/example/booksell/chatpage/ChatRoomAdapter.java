@@ -15,6 +15,8 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import org.w3c.dom.Text;
+
 import java.util.List;
 
 public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ChatRoomViewHolder> {
@@ -34,6 +36,10 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ChatRo
         return new ChatRoomViewHolder(view);
     }
 
+    public void setChatRooms(List<ChatRoom> chatRooms) {
+        this.chatRooms = chatRooms;
+    }
+
     @Override
     public void onBindViewHolder(@NonNull ChatRoomViewHolder holder, int position) {
         ChatRoom chatRoom = chatRooms.get(position);
@@ -48,6 +54,7 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ChatRo
     public class ChatRoomViewHolder extends RecyclerView.ViewHolder {
 
         private TextView sellerTextView;
+        private TextView buyerTextView;
         private TextView bookNameTextView;
         private TextView priceTextView;
 
@@ -57,10 +64,12 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ChatRo
             sellerTextView = itemView.findViewById(R.id.sellerTextView);
             bookNameTextView = itemView.findViewById(R.id.bookNameTextView);
             priceTextView = itemView.findViewById(R.id.priceTextView);
+            buyerTextView = itemView.findViewById(R.id.buyerTextView);
         }
 
         public void bind(ChatRoom chatRoom) {
-            sellerTextView.setText("판매자: " + chatRoom.getSeller());
+            fetchNickname(chatRoom.getSeller(), sellerTextView, "판매자: ");
+            fetchNickname(chatRoom.getBuyer(), buyerTextView, "구매자: ");
             bookNameTextView.setText("도서명: " + chatRoom.getBookName());
 
             // 가격 가져와서 TextView에 설정
@@ -75,6 +84,32 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ChatRo
                 intent.putExtra("buyer", chatRoom.getBuyer());
                 context.startActivity(intent);
             });
+        }
+
+        private void fetchNickname(String userEmail, TextView textView, String rolePrefix) {
+            FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+            CollectionReference usersCollection = firestore.collection("users");
+
+            usersCollection
+                    .whereEqualTo("email", userEmail)
+                    .get()
+                    .addOnSuccessListener(queryDocumentSnapshots -> {
+                        if (!queryDocumentSnapshots.isEmpty()) {
+                            DocumentSnapshot documentSnapshot = queryDocumentSnapshots.getDocuments().get(0);
+                            String nickname = documentSnapshot.getString("nickname");
+
+                            if (nickname != null) {
+                                textView.setText(rolePrefix + nickname);
+                            } else {
+                                textView.setText(rolePrefix + "닉네임 없음");
+                            }
+                        } else {
+                            textView.setText(rolePrefix + "닉네임 없음");
+                        }
+                    })
+                    .addOnFailureListener(e -> {
+                        textView.setText(rolePrefix + "닉네임 가져오기 실패");
+                    });
         }
 
         // 가격 가져와서 TextView에 설정
