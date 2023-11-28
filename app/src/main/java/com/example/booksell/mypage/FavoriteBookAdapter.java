@@ -1,13 +1,14 @@
-package com.example.booksell;
+package com.example.booksell.mypage;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.booksell.R;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.example.booksell;
+package com.example.booksell.mypage;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -12,6 +12,13 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.example.booksell.service.Before_constructionpage;
+import com.example.booksell.R;
+import com.example.booksell.buypage.BuyPage;
+import com.example.booksell.chatpage.ChatListPage;
+import com.example.booksell.service.loginActivity;
+import com.example.booksell.sellpage.SellPage;
 
 import java.util.ArrayList;
 
@@ -107,7 +114,7 @@ public class MyPage extends AppCompatActivity {
         btn_buy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MyPage.this,BuyPage.class);
+                Intent intent = new Intent(MyPage.this, BuyPage.class);
                 startActivity(intent);
             }
         });
@@ -115,7 +122,7 @@ public class MyPage extends AppCompatActivity {
         btn_sell.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MyPage.this,SellPage.class);
+                Intent intent = new Intent(MyPage.this, SellPage.class);
                 startActivity(intent);
             }
         });
@@ -123,7 +130,7 @@ public class MyPage extends AppCompatActivity {
         btn_chat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MyPage.this,ChatListPage.class);
+                Intent intent = new Intent(MyPage.this, ChatListPage.class);
                 startActivity(intent);
             }
         });

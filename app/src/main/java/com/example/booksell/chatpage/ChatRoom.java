@@ -1,4 +1,4 @@
-package com.example.booksell;
+package com.example.booksell.chatpage;
 
 public class ChatRoom {
     private String seller;

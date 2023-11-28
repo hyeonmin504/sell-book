@@ -1,4 +1,4 @@
-package com.example.booksell;
+package com.example.booksell.mypage;
 
 public class FavoriteBookInfo {
     private String bookName;

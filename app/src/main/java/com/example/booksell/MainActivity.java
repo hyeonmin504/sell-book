@@ -5,11 +5,13 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.View;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
+
+import com.example.booksell.buypage.BuyPage;
+import com.example.booksell.sellpage.ImageSliderAdapter;
 
 public class MainActivity extends AppCompatActivity {
     private ViewPager viewPager;

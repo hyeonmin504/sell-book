@@ -1,10 +1,12 @@
-package com.example.booksell;
+package com.example.booksell.service;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+
+import com.example.booksell.R;
 
 public class Before_constructionpage extends AppCompatActivity {
 

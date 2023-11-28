@@ -1,4 +1,4 @@
-package com.example.booksell;
+package com.example.booksell.chatpage;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -12,13 +12,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.booksell.R;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.net.HttpCookie;
 import java.util.ArrayList;
 import java.util.List;
 

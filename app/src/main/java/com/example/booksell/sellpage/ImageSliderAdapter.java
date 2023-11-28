@@ -1,4 +1,4 @@
-package com.example.booksell;
+package com.example.booksell.sellpage;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -6,6 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import androidx.viewpager.widget.PagerAdapter;
+
+import com.example.booksell.R;
 
 public class ImageSliderAdapter extends PagerAdapter {
     private Context context;

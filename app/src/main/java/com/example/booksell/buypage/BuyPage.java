@@ -1,25 +1,22 @@
-package com.example.booksell;
+package com.example.booksell.buypage;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.firebase.firestore.DocumentSnapshot;
+import com.example.booksell.mypage.MyPage;
+import com.example.booksell.R;
+import com.example.booksell.sellpage.SellPage;
+import com.example.booksell.chatpage.ChatListPage;
 import com.google.firebase.firestore.FirebaseFirestore;
-
-import java.util.ArrayList;
 
 public class BuyPage extends AppCompatActivity {
 
@@ -87,7 +84,7 @@ public class BuyPage extends AppCompatActivity {
         btn_sell.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(BuyPage.this,SellPage.class);
+                Intent intent = new Intent(BuyPage.this, SellPage.class);
                 startActivity(intent);
             }
         });
@@ -95,7 +92,7 @@ public class BuyPage extends AppCompatActivity {
         btn_chat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(BuyPage.this,ChatListPage.class);
+                Intent intent = new Intent(BuyPage.this, ChatListPage.class);
                 startActivity(intent);
             }
         });
@@ -103,7 +100,7 @@ public class BuyPage extends AppCompatActivity {
         btn_my.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(BuyPage.this,MyPage.class);
+                Intent intent = new Intent(BuyPage.this, MyPage.class);
                 startActivity(intent);
             }
         });

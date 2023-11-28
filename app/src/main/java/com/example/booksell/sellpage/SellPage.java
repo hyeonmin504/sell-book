@@ -1,4 +1,4 @@
-package com.example.booksell;
+package com.example.booksell.sellpage;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,6 +21,10 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 
 import com.bumptech.glide.Glide;
+import com.example.booksell.mypage.MyPage;
+import com.example.booksell.R;
+import com.example.booksell.buypage.BuyPage;
+import com.example.booksell.chatpage.ChatListPage;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -121,7 +125,7 @@ public class SellPage extends AppCompatActivity {
         btn_buy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(SellPage.this,BuyPage.class);
+                Intent intent = new Intent(SellPage.this, BuyPage.class);
                 startActivity(intent);
             }
         });
@@ -137,7 +141,7 @@ public class SellPage extends AppCompatActivity {
         btn_chat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(SellPage.this,ChatListPage.class);
+                Intent intent = new Intent(SellPage.this, ChatListPage.class);
                 startActivity(intent);
             }
         });
@@ -145,7 +149,7 @@ public class SellPage extends AppCompatActivity {
         btn_my.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(SellPage.this,MyPage.class);
+                Intent intent = new Intent(SellPage.this, MyPage.class);
                 startActivity(intent);
             }
         });

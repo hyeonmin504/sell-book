@@ -1,4 +1,4 @@
-package com.example.booksell;
+package com.example.booksell.chatpage;
 
 import java.io.Serializable;
 

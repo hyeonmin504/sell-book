@@ -7,7 +7,7 @@
     android:paddingTop="16dp"
     android:paddingRight="16dp"
     android:paddingBottom="16dp"
-    tools:context=".Signup">
+    tools:context=".service.Signup">
 
     <EditText
         android:id="@+id/editTextEmail"

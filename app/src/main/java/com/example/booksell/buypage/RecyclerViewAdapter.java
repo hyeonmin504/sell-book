@@ -1,4 +1,4 @@
-package com.example.booksell;
+package com.example.booksell.buypage;
 
 import android.content.Intent;
 import android.util.Log;
@@ -10,6 +10,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.booksell.sellpage.Book;
+import com.example.booksell.R;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 

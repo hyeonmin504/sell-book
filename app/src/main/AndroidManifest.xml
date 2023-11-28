@@ -13,40 +13,40 @@
         android:theme="@style/Theme.Booksell"
         tools:targetApi="31">
         <activity
-            android:name=".MyInfo"
+            android:name=".mypage.MyInfo"
             android:exported="false" />
         <activity
-            android:name=".Signup"
+            android:name=".service.Signup"
             android:exported="false" />
         <activity
-            android:name=".loginActivity"
+            android:name=".service.loginActivity"
             android:exported="false" />
         <activity
-            android:name=".Before_constructionpage"
+            android:name=".service.Before_constructionpage"
             android:exported="false" />
         <activity
-            android:name=".ChatActivity"
+            android:name=".chatpage.ChatActivity"
             android:exported="false" />
         <activity
-            android:name=".SellBook"
+            android:name=".mypage.SellBook"
             android:exported="false" />
         <activity
-            android:name=".FavoriteBook"
+            android:name=".mypage.FavoriteBook"
             android:exported="false" />
         <activity
-            android:name=".ChatListPage"
+            android:name=".chatpage.ChatListPage"
             android:exported="false" />
         <activity
-            android:name=".BookInfoPage"
+            android:name=".buypage.BookInfoPage"
             android:exported="false" />
         <activity
-            android:name=".MyPage"
+            android:name=".mypage.MyPage"
             android:exported="false" />
         <activity
-            android:name=".SellPage"
+            android:name=".sellpage.SellPage"
             android:exported="false" />
         <activity
-            android:name=".BuyPage"
+            android:name=".buypage.BuyPage"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

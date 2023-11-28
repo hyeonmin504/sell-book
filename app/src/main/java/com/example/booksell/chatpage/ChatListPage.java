@@ -1,4 +1,4 @@
-package com.example.booksell;
+package com.example.booksell.chatpage;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -12,6 +12,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.booksell.buypage.BuyPage;
+import com.example.booksell.mypage.MyPage;
+import com.example.booksell.R;
+import com.example.booksell.sellpage.SellPage;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -66,7 +70,7 @@ public class ChatListPage extends AppCompatActivity {
         btn_sell.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(ChatListPage.this,SellPage.class);
+                Intent intent = new Intent(ChatListPage.this, SellPage.class);
                 startActivity(intent);
             }
         });
@@ -82,7 +86,7 @@ public class ChatListPage extends AppCompatActivity {
         btn_my.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(ChatListPage.this,MyPage.class);
+                Intent intent = new Intent(ChatListPage.this, MyPage.class);
                 startActivity(intent);
             }
         });

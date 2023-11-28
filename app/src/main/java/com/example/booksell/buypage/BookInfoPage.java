@@ -1,4 +1,4 @@
-package com.example.booksell;
+package com.example.booksell.buypage;
 
 import static android.content.ContentValues.TAG;
 
@@ -14,12 +14,15 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
+import com.example.booksell.R;
+import com.example.booksell.mypage.FavoriteBook;
+import com.example.booksell.mypage.FavoriteBookInfo;
+import com.example.booksell.chatpage.ChatListPage;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
