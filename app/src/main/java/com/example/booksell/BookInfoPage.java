@@ -26,7 +26,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 public class BookInfoPage extends AppCompatActivity {
     Button btn_star, btn_sub;
-
+    private static String seller;
     // Firestore 관련
     private FirebaseFirestore firestore;
     boolean isLoggedIn = false;
@@ -44,15 +44,6 @@ public class BookInfoPage extends AppCompatActivity {
         SharedPreferences preferences = getSharedPreferences("user_prefs", MODE_PRIVATE);
         isLoggedIn = preferences.getBoolean("isLoggedIn", false);
 
-        btn_sub.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), ChatActivity.class);
-                view.getContext().startActivity(intent);
-            }
-        });
-
-
         // 정보 받아오기
         Intent intent = getIntent();
         String bookName = intent.getStringExtra("bookName");
@@ -64,13 +55,13 @@ public class BookInfoPage extends AppCompatActivity {
 
         bookNameTextView.setText("책 이름: " + bookName);
         bookAuthorTextView.setText("담당교수: " + bookAuthor);
-        String email = preferences.getString("email","");
+        final String[] email = {preferences.getString("email", "")};
 
         btn_star.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // Firestore에서 favorite 컬렉션에 책 정보 추가
-                FavoriteBookInfo favoriteBookInfo = new FavoriteBookInfo(bookName, bookAuthor,email);
+                FavoriteBookInfo favoriteBookInfo = new FavoriteBookInfo(bookName, bookAuthor, email[0]);
 
                 firestore.collection("favorite")
                         .add(favoriteBookInfo)
@@ -110,6 +101,7 @@ public class BookInfoPage extends AppCompatActivity {
                                 String publisher = document.getString("publisher");
                                 String publisherDate = document.getString("publisher_date");
                                 String state = document.getString("state");
+                                seller = document.getString("email");
                                 boolean state1 = document.getBoolean("state1");
                                 boolean state2 = document.getBoolean("state2");
                                 boolean state3 = document.getBoolean("state3");
@@ -161,6 +153,24 @@ public class BookInfoPage extends AppCompatActivity {
                         }
                     }
                 });
+
+        btn_sub.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // ChatListPage로 전달할 데이터 설정
+                Intent intent = new Intent(view.getContext(), ChatListPage.class);
+                intent.putExtra("seller", seller);  // seller을 전달
+                intent.putExtra("bookName", bookName);
+
+                // 나의 이메일을 가져와서 buyer로 전달
+                SharedPreferences preferences = getSharedPreferences("user_prefs", MODE_PRIVATE);
+                String buyer = preferences.getString("email", "");
+                intent.putExtra("buyer", buyer);
+
+                // ChatListPage 시작
+                view.getContext().startActivity(intent);
+            }
+        });
 
     }
 }

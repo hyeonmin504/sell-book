@@ -1,0 +1,31 @@
+<!-- res/layout/item_chat_room.xml -->
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/sellerTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="판매자: "
+        android:textStyle="bold"
+        android:textSize="16sp"/>
+
+    <TextView
+        android:id="@+id/bookNameTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="도서명: "
+        android:textSize="14sp"/>
+
+    <TextView
+        android:id="@+id/buyerTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="구매자: "
+        android:textSize="14sp"/>
+</LinearLayout>
