@@ -5,6 +5,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -26,7 +28,7 @@ public class loginActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private EditText emailEditText, passwordEditText;
-    private Button loginButton,buttonsignup;
+    private Button loginButton, buttonsignup;
     private FirebaseFirestore firestore;
 
     @Override
@@ -54,8 +56,7 @@ public class loginActivity extends AppCompatActivity {
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
                                     // 로그인 성공
-
-                                    // Firestore에서 사용자 정보 가져오기
+                                    // 사용자의 이메일을 기반으로 Firestore에서 닉네임을 가져오기
                                     firestore.collection("users")
                                             .whereEqualTo("email", email)
                                             .get()
@@ -63,29 +64,37 @@ public class loginActivity extends AppCompatActivity {
                                                 @Override
                                                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                                     if (task.isSuccessful() && task.getResult() != null) {
-                                                        // 사용자 정보가 존재하면 닉네임 가져오기
                                                         QuerySnapshot querySnapshot = task.getResult();
                                                         if (!querySnapshot.isEmpty()) {
                                                             DocumentSnapshot documentSnapshot = querySnapshot.getDocuments().get(0);
                                                             String nickname = documentSnapshot.getString("nickname");
 
                                                             // 예: SharedPreferences를 사용하여 로그인 상태 및 정보 저장
+                                                            Log.d("LoginActivity", "Nickname: " + nickname);
+
                                                             SharedPreferences preferences = getSharedPreferences("user_prefs", MODE_PRIVATE);
                                                             SharedPreferences.Editor editor = preferences.edit();
                                                             editor.putBoolean("isLoggedIn", true);
                                                             editor.putString("email", email);
                                                             editor.putString("nickname", nickname);
                                                             editor.apply();
+
                                                             // 로그인 성공
                                                             Toast.makeText(loginActivity.this, "로그인 성공", Toast.LENGTH_SHORT).show();
+
                                                             // 로그인 성공 시 MyPage 액티비티로 이동
                                                             Intent intent = new Intent(loginActivity.this, MyPage.class);
                                                             startActivity(intent);
+                                                        } else {
+                                                            Log.d("LoginActivity", "사용자 정보가 없습니다.");
+                                                            Toast.makeText(loginActivity.this, "사용자 정보가 없습니다.", Toast.LENGTH_SHORT).show();
                                                         }
+                                                    } else {
+                                                        Log.e("LoginActivity", "Firebase에서 사용자 정보 가져오기 실패: " + task.getException().getMessage());
+                                                        Toast.makeText(loginActivity.this, "Firebase에서 사용자 정보 가져오기 실패: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                                                     }
                                                 }
                                             });
-
                                 } else {
                                     // 로그인 실패
                                     Toast.makeText(loginActivity.this, "로그인 실패", Toast.LENGTH_SHORT).show();
@@ -95,7 +104,7 @@ public class loginActivity extends AppCompatActivity {
             }
         });
 
-
+        // 회원가입 버튼 리스너 설정
         buttonsignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
