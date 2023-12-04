@@ -77,16 +77,49 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ChatRo
 
             // 클릭 이벤트 추가 (채팅방으로 이동)
             itemView.setOnClickListener(v -> {
-                // 채팅방으로 이동하는 로직 추가
+                FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+                CollectionReference usersCollection = firestore.collection("users");
+
+                String seller = chatRoom.getSeller();
+                String buyer = chatRoom.getBuyer();
+
                 Intent intent = new Intent(context, ChatActivity.class);
-                intent.putExtra("seller", chatRoom.getSeller());
-                intent.putExtra("bookName", chatRoom.getBookName());
-                intent.putExtra("buyer", chatRoom.getBuyer());
-                context.startActivity(intent);
+
+                // 판매자 정보 가져오기
+                usersCollection
+                        .whereEqualTo("email", seller)
+                        .get()
+                        .addOnSuccessListener(queryDocumentSnapshots -> {
+                            if (!queryDocumentSnapshots.isEmpty()) {
+                                DocumentSnapshot documentSnapshot = queryDocumentSnapshots.getDocuments().get(0);
+                                String sellerNickname = documentSnapshot.getString("nickname");
+
+                                if (sellerNickname != null) {
+                                    intent.putExtra("seller", sellerNickname); // sellerNickname으로 수정
+
+                                    // 구매자 정보 가져오기
+                                    usersCollection
+                                            .whereEqualTo("email", buyer)
+                                            .get()
+                                            .addOnSuccessListener(queryDocumentSnapshots1 -> {
+                                                if (!queryDocumentSnapshots1.isEmpty()) {
+                                                    DocumentSnapshot documentSnapshot1 = queryDocumentSnapshots1.getDocuments().get(0);
+                                                    String buyerNickname = documentSnapshot1.getString("nickname");
+
+                                                    if (buyerNickname != null) {
+                                                        intent.putExtra("buyer", buyerNickname); // buyerNickname으로 수정
+                                                        intent.putExtra("bookName", chatRoom.getBookName());
+
+                                                        // 여기에 startActivity 추가
+                                                        context.startActivity(intent);
+                                                    }
+                                                }
+                                            });
+                                }
+                            }
+                        });
             });
         }
-
-
 
         private void fetchNickname(String userEmail, TextView textView, String rolePrefix) {
             FirebaseFirestore firestore = FirebaseFirestore.getInstance();
