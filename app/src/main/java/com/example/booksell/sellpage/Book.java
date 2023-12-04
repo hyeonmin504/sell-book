@@ -11,6 +11,7 @@ public class Book {
     private boolean state1,state2,state3;
     private boolean write1,write2,write3;
     private int imageResource;
+    private String imageUrl;
     public Book() {
     }
 
@@ -20,7 +21,7 @@ public class Book {
     }
 
     public Book(String title, String author, double price, String publisher, String publisher_date, String state,
-                boolean state1, boolean state2, boolean state3, boolean write1, boolean write2, boolean write3,String email) {
+                boolean state1, boolean state2, boolean state3, boolean write1, boolean write2, boolean write3, String email, String imageUrl) {
         this.bookName = title;
         this.bookAuthor = author;
         this.bookPrice = price;
@@ -34,6 +35,7 @@ public class Book {
         this.write2 = write2;
         this.write3 = write3;
         this.email = email;
+        this.imageUrl = imageUrl;
         Log.d("이메일", "사용자의 이메일: " + email);
 
     }
@@ -101,4 +103,6 @@ public class Book {
     public void setWrite2(boolean write2){ this.write2 = write2; }
     public boolean getWrite3(){ return write3; }
     public void setWrite3(boolean write3){ this.write3 = write3; }
+    public void setImageUrl(){ this.imageUrl = imageUrl; }
+    public String getImageUrl(){ return imageUrl;}
 }

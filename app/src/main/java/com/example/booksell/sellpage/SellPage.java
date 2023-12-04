@@ -29,6 +29,10 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
+import java.util.UUID;
 
 public class SellPage extends AppCompatActivity {
     private FirebaseFirestore firestore;
@@ -39,6 +43,7 @@ public class SellPage extends AppCompatActivity {
     CheckBox CB_state1,CB_state2,CB_state3,CB_write1,CB_write2,CB_write3;
     private final String TAG = this.getClass().getSimpleName();
     ImageView imageview;
+    private Uri selectedImageUri;
     boolean isLoggedIn = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,10 +92,18 @@ public class SellPage extends AppCompatActivity {
                     boolean write2 = CB_write2.isChecked();
                     boolean write3 = CB_write3.isChecked();
                     String email = preferences.getString("email","");
+                    String imageUrl = null;
                     Log.d(email, "onClick: ");
                     // 데이터를 Firestore에 업로드
-                    uploadBookData(bookName, bookAuthor, price, publisher, publisher_date, state,
-                            state1, state2, state3, write1, write2, write3,email);
+
+                    if (selectedImageUri != null) {
+                        uploadImageToFirebaseStorage(selectedImageUri, bookName, bookAuthor, price, publisher, publisher_date, state,
+                                state1, state2, state3, write1, write2, write3, email);
+                    } else {
+                        // 이미지가 선택되지 않은 경우, 기존 방식으로 데이터 업로드
+                        uploadBookData(bookName, bookAuthor, price, publisher, publisher_date, state,
+                                state1, state2, state3, write1, write2, write3, email, null);
+                    }
                 }else {
                     Toast.makeText(SellPage.this, "로그인을 해주세요", Toast.LENGTH_SHORT).show();
                 }
@@ -107,10 +120,12 @@ public class SellPage extends AppCompatActivity {
                             Log.e(TAG, "intent : " + intent);
                             Uri uri = intent.getData();
                             Log.e(TAG, "uri : " + uri);
-//                        imageview.setImageURI(uri);
-                            Glide.with(SellPage.this)
-                                    .load(uri)
-                                    .into(imageview);
+                            if(uri != null) {
+                                selectedImageUri = uri;
+                                Glide.with(SellPage.this)
+                                        .load(uri)
+                                        .into(imageview);
+                            }
                         }
                     }
                 });
@@ -156,9 +171,9 @@ public class SellPage extends AppCompatActivity {
     }
 
     private void uploadBookData(String title, String author, double price, String publisher, String publisher_date, String state,
-                                boolean state1, boolean state2, boolean state3, boolean write1, boolean write2, boolean write3, String email) {
+                                boolean state1, boolean state2, boolean state3, boolean write1, boolean write2, boolean write3, String email, String imageUrl) {
         // Firestore에 업로드할 데이터 생성
-        Book book = new Book(title, author, price, publisher, publisher_date, state, state1, state2, state3, write1, write2, write3,email); // Book 클래스의 생성자에 title과 author 전달
+        Book book = new Book(title, author, price, publisher, publisher_date, state, state1, state2, state3, write1, write2, write3, email, imageUrl); // Book 클래스의 생성자에 title과 author 전달
 
         // Firestore에 데이터 업로드
         firestore.collection("bookInfo")
@@ -180,5 +195,20 @@ public class SellPage extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+    // 이미지를 Firebase Storage에 업로드하고 URL을 얻는 함수
+    private void uploadImageToFirebaseStorage(Uri imageUri, String title, String author, double price, String publisher, String publisher_date, String state,
+                                              boolean state1, boolean state2, boolean state3, boolean write1, boolean write2, boolean write3, String email) {
+        StorageReference storageRef = FirebaseStorage.getInstance().getReference().child("book_images/" + UUID.randomUUID().toString());
+
+        storageRef.putFile(imageUri).addOnSuccessListener(taskSnapshot -> {
+            storageRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                String imageUrl = uri.toString();
+                uploadBookData(title, author, price, publisher, publisher_date, state, state1, state2, state3, write1, write2, write3, email, imageUrl);
+            });
+        }).addOnFailureListener(e -> {
+            Toast.makeText(SellPage.this, "이미지 업로드 실패: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+        });
     }
 }
