@@ -1,5 +1,6 @@
 package com.example.booksell.chatpage;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
@@ -43,6 +44,12 @@ public class ChatActivity extends AppCompatActivity {
         EditText_chat = findViewById(R.id.EditText_chat);
         btn_back = findViewById(R.id.btn_back);
 
+        Intent intent = getIntent();
+        String buyer = intent.getStringExtra("buyer");
+        String seller = intent.getStringExtra("seller");
+        String bookName = intent.getStringExtra("bookName");
+
+
         SharedPreferences preferences = getSharedPreferences("user_prefs", MODE_PRIVATE);
         isLoggedIn = preferences.getBoolean("isLoggedIn", false);
         String nickname = preferences.getString("nickname","");
@@ -78,10 +85,9 @@ public class ChatActivity extends AppCompatActivity {
         mAdapter = new ChatAdapter(chatList, ChatActivity.this,nick);
         mRecyclerView.setAdapter(mAdapter);
 
-        // Write a message to the database
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        myRef = database.getReference("message");
-
+        String sanitizedPath = bookName;
+        myRef = database.getReference("chatRooms").child(sanitizedPath);
 
 
         myRef.addChildEventListener(new ChildEventListener() {
