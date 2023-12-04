@@ -3,6 +3,7 @@ package com.example.booksell.chatpage;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -48,6 +49,7 @@ public class ChatActivity extends AppCompatActivity {
         String buyer = intent.getStringExtra("buyer");
         String seller = intent.getStringExtra("seller");
         String bookName = intent.getStringExtra("bookName");
+        Log.d(buyer + seller, "onCreate: ");
 
 
         SharedPreferences preferences = getSharedPreferences("user_prefs", MODE_PRIVATE);
@@ -56,7 +58,7 @@ public class ChatActivity extends AppCompatActivity {
         nick = nickname;
 
 
-        Button_send.setOnClickListener(new View.OnClickListener(){
+        Button_send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String msg = EditText_chat.getText().toString();
@@ -65,6 +67,9 @@ public class ChatActivity extends AppCompatActivity {
                     chat.setNickname(nick);
                     chat.setMsg(msg);
                     myRef.push().setValue(chat);
+
+                    // 메시지를 전송한 후 EditText의 내용 지우기
+                    EditText_chat.setText(""); // 빈 문자열로 설정하여 EditText 내용을 지움
                 }
             }
         });
@@ -86,7 +91,7 @@ public class ChatActivity extends AppCompatActivity {
         mRecyclerView.setAdapter(mAdapter);
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        String sanitizedPath = bookName;
+        String sanitizedPath = buyer + "_" + seller + "_" + bookName;
         myRef = database.getReference("chatRooms").child(sanitizedPath);
 
 
