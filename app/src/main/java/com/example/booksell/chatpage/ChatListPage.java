@@ -14,15 +14,19 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.booksell.buypage.BuyPage;
 import com.example.booksell.mypage.MyPage;
 import com.example.booksell.R;
 import com.example.booksell.sellpage.SellPage;
+import com.example.booksell.service.loginActivity;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -33,6 +37,8 @@ public class ChatListPage extends AppCompatActivity {
     RecyclerView recyclerView;
     ChatRoomAdapter adapter;
     List<ChatRoom> chatRooms;
+    boolean isLoggedIn = false;
+    TextView tv_login;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,10 +56,40 @@ public class ChatListPage extends AppCompatActivity {
         btn_sell = findViewById(R.id.btn_sell);
         btn_buy = findViewById(R.id.btn_buy);
         chatRooms = new ArrayList<>();
+        tv_login = findViewById(R.id.tv_login);
         adapter = new ChatRoomAdapter(this, chatRooms);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
+
+        // SharedPreferences를 통해 로그인 상태 가져오기
+        SharedPreferences preferences = getSharedPreferences("user_prefs", MODE_PRIVATE);
+        isLoggedIn = preferences.getBoolean("isLoggedIn", false);
+
+        if (isLoggedIn) {
+            // 리스트뷰를 보이도록 설정
+            tv_login.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
+
+        } else {
+            // 사용자가 로그인하지 않은 경우, 로그인 화면으로 이동
+            tv_login.setVisibility(View.VISIBLE);
+        }
+
+        tv_login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!isLoggedIn) {
+                    // 사용자가 로그인하지 않은 경우, 로그인 화면으로 이동
+                    Intent intent = new Intent(ChatListPage.this, loginActivity.class);
+                    startActivity(intent);
+                } else {
+                    // 사용자가 로그인한 경우, 리스트뷰를 보이도록 설정
+                    tv_login.setVisibility(View.GONE);
+                    recyclerView.setVisibility(View.VISIBLE);
+                }
+            }
+        });
 
         // ChatListPage에서 seller, bookName, buyer 정보 가져오기
         Intent intent = getIntent();
@@ -67,7 +103,7 @@ public class ChatListPage extends AppCompatActivity {
         }
 
         // 데이터 가져오기
-        filterSellingChats();
+        filterBuyingChats();
 
         btn_buy.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -146,7 +182,6 @@ public class ChatListPage extends AppCompatActivity {
                             Toast.makeText(ChatListPage.this, "사용자가 등록한 책입니다.", Toast.LENGTH_SHORT).show();
                         } else {
                             ChatRoom chatRoom = new ChatRoom(seller, bookName, buyer);
-
                             chatRoomsCollection.add(chatRoom)
                                     .addOnSuccessListener(documentReference -> {
                                         // 성공적으로 저장된 경우
