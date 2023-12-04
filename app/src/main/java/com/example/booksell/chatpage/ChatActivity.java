@@ -56,7 +56,7 @@ public class ChatActivity extends AppCompatActivity {
         nick = nickname;
 
 
-        Button_send.setOnClickListener(new View.OnClickListener(){
+        Button_send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String msg = EditText_chat.getText().toString();
@@ -65,6 +65,9 @@ public class ChatActivity extends AppCompatActivity {
                     chat.setNickname(nick);
                     chat.setMsg(msg);
                     myRef.push().setValue(chat);
+
+                    // 메시지를 전송한 후 EditText의 내용 지우기
+                    EditText_chat.setText(""); // 빈 문자열로 설정하여 EditText 내용을 지움
                 }
             }
         });
