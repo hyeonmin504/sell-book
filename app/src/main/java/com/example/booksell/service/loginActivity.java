@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.booksell.R;
+import com.example.booksell.buypage.BuyPage;
 import com.example.booksell.mypage.MyPage;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -83,7 +84,7 @@ public class loginActivity extends AppCompatActivity {
                                                             Toast.makeText(loginActivity.this, "로그인 성공", Toast.LENGTH_SHORT).show();
 
                                                             // 로그인 성공 시 MyPage 액티비티로 이동
-                                                            Intent intent = new Intent(loginActivity.this, MyPage.class);
+                                                            Intent intent = new Intent(loginActivity.this, BuyPage.class);
                                                             startActivity(intent);
                                                         } else {
                                                             Log.d("LoginActivity", "사용자 정보가 없습니다.");

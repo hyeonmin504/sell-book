@@ -17,11 +17,36 @@
         android:layout_height="1dp"
         android:background="#000" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <!-- 로그인 버튼 -->
+        <TextView
+            android:id="@+id/tv_login"
+            android:layout_width="wrap_content"
+            android:layout_height="65dp"
+            android:layout_margin="1px"
+            android:layout_weight="1"
+            android:text="로그인을 해주세요"
+            android:textSize="17dp"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:textColor="#0000FF"
+            android:visibility="visible"
+            />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:visibility="gone"/>
+
+    </LinearLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"

@@ -86,6 +86,8 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ChatRo
             });
         }
 
+
+
         private void fetchNickname(String userEmail, TextView textView, String rolePrefix) {
             FirebaseFirestore firestore = FirebaseFirestore.getInstance();
             CollectionReference usersCollection = firestore.collection("users");
