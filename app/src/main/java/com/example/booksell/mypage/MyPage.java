@@ -66,6 +66,7 @@ public class MyPage extends AppCompatActivity {
         // SharedPreferences를 통해 로그인 상태 가져오기
         SharedPreferences preferences = getSharedPreferences("user_prefs", MODE_PRIVATE);
         isLoggedIn = preferences.getBoolean("isLoggedIn", false);
+        String email = preferences.getString("email", "");
 
         Log.d("LoginStatus", "isLoggedIn: " + isLoggedIn);
 
@@ -100,7 +101,10 @@ public class MyPage extends AppCompatActivity {
                 } else if (position == 2){
                     Intent intent = new Intent(MyPage.this, MyInfo.class);
                     startActivity(intent);
-                } else if(position == 3 || position == 4 || position == 5){
+                } else if(position == 3){
+                    Intent intent = new Intent(MyPage.this, TradeComplete.class);
+                    startActivity(intent);
+                } else if(position == 4 || position == 5){
                     Intent intent = new Intent(MyPage.this, Before_constructionpage.class);
                     startActivity(intent);
                 } else if( position == 6){

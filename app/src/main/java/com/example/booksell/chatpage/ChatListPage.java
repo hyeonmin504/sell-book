@@ -23,6 +23,7 @@ import com.example.booksell.R;
 import com.example.booksell.sellpage.SellPage;
 import com.example.booksell.service.loginActivity;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
@@ -170,40 +171,41 @@ public class ChatListPage extends AppCompatActivity {
         FirebaseFirestore firestore = FirebaseFirestore.getInstance();
         CollectionReference chatRoomsCollection = firestore.collection("chatRoomNum");
 
-        // 중복 체크
-        chatRoomsCollection.whereEqualTo("seller", seller)
-                .whereEqualTo("bookName", bookName)
-                .whereEqualTo("buyer", buyer)
-                .get()
-                .addOnSuccessListener(queryDocumentSnapshots -> {
-                    if (queryDocumentSnapshots.isEmpty()) {
-                        // 중복된 데이터가 없으면 저장
-                        if (seller.equals(buyer)) {
-                            Toast.makeText(ChatListPage.this, "사용자가 등록한 책입니다.", Toast.LENGTH_SHORT).show();
-                        } else {
-                            ChatRoom chatRoom = new ChatRoom(seller, bookName, buyer);
-                            chatRoomsCollection.add(chatRoom)
-                                    .addOnSuccessListener(documentReference -> {
-                                        // 성공적으로 저장된 경우
-                                        String roomId = documentReference.getId();
-                                        Toast.makeText(ChatListPage.this, "채팅방 생성 완료", Toast.LENGTH_SHORT).show();
+        String documentId = seller + "_" + bookName + "_" + buyer;
 
-                                        // 저장 후에 목록을 갱신
-                                        filterBuyingChats();
-                                    })
-                                    .addOnFailureListener(e -> {
-                                        // 저장 실패한 경우
-                                        Toast.makeText(ChatListPage.this, "채팅방 생성 실패", Toast.LENGTH_SHORT).show();
-                                    });
+        chatRoomsCollection.document(documentId)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot documentSnapshot = task.getResult();
+                        if (documentSnapshot.exists()) {
+                            // 중복된 데이터가 있으면 메시지 표시
+                            Toast.makeText(ChatListPage.this, "이미 존재하는 채팅방입니다.", Toast.LENGTH_SHORT).show();
+                        } else {
+                            // 중복된 데이터가 없으면 저장
+                            if (seller.equals(buyer)) {
+                                Toast.makeText(ChatListPage.this, "사용자가 등록한 책입니다.", Toast.LENGTH_SHORT).show();
+                            } else {
+                                ChatRoom chatRoom = new ChatRoom(seller, bookName, buyer, false, false);
+                                chatRoomsCollection.document(documentId)
+                                        .set(chatRoom)
+                                        .addOnSuccessListener(aVoid -> {
+                                            // 성공적으로 저장된 경우
+                                            Toast.makeText(ChatListPage.this, "채팅방 생성 완료", Toast.LENGTH_SHORT).show();
+
+                                            // 저장 후에 목록을 갱신
+                                            filterBuyingChats();
+                                        })
+                                        .addOnFailureListener(e -> {
+                                            // 저장 실패한 경우
+                                            Toast.makeText(ChatListPage.this, "채팅방 생성 실패", Toast.LENGTH_SHORT).show();
+                                        });
+                            }
                         }
                     } else {
-                        // 중복된 데이터가 있으면 메시지 표시
-                        Toast.makeText(ChatListPage.this, "이미 존재하는 채팅방입니다.", Toast.LENGTH_SHORT).show();
+                        // 쿼리 실패한 경우
+                        Toast.makeText(ChatListPage.this, "중복 확인 중 에러가 발생했습니다.", Toast.LENGTH_SHORT).show();
                     }
-                })
-                .addOnFailureListener(e -> {
-                    // 쿼리 실패한 경우
-                    Toast.makeText(ChatListPage.this, "중복 확인 중 에러가 발생했습니다.", Toast.LENGTH_SHORT).show();
                 });
     }
 

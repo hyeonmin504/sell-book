@@ -96,6 +96,7 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ChatRo
 
                                 if (sellerNickname != null) {
                                     intent.putExtra("seller", sellerNickname); // sellerNickname으로 수정
+                                    intent.putExtra("sellerEmail", seller); // 이메일 추가
 
                                     // 구매자 정보 가져오기
                                     usersCollection
@@ -108,6 +109,7 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ChatRo
 
                                                     if (buyerNickname != null) {
                                                         intent.putExtra("buyer", buyerNickname); // buyerNickname으로 수정
+                                                        intent.putExtra("buyerEmail", buyer); // 이메일 추가
                                                         intent.putExtra("bookName", chatRoom.getBookName());
 
                                                         // 여기에 startActivity 추가

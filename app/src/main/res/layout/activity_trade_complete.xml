@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:weightSum="1" >
+    android:layout_weight="1"
+    android:orientation="vertical">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -14,7 +14,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="채팅"
+            android:text="구매 확정"
             android:textSize="30dp"
             android:gravity="center"
             android:paddingTop="15dp"
@@ -26,48 +26,30 @@
             android:layout_height="1dp"
             android:background="#000"></View>
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="확정버튼"
-            android:layout_weight="@integer/material_motion_duration_long_1"
-            android:id="@+id/btn_check"
-            ></Button>
-
+        android:orientation="horizontal"
+        android:gravity="right"
+        >
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="back"
             android:id="@+id/btn_back"></Button>
     </LinearLayout>
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/my_recycler_view"
-        android:scrollbars="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"/>
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:orientation="horizontal"
-        android:weightSum="1">
-        <EditText
-            android:id="@+id/EditText_chat"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"/>
-        <Button
-            android:id="@+id/Button_send"
-            android:text="보내기"
-            android:layout_width="100dp"
-            android:layout_height="match_parent"
-            android:layout_weight="2"/>
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <ListView
+            android:id="@+id/Lv_tradeList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </ListView>
     </LinearLayout>
-
-
 </LinearLayout>

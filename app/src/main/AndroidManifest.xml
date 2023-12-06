@@ -13,6 +13,9 @@
         android:theme="@style/Theme.Booksell"
         tools:targetApi="31">
         <activity
+            android:name=".mypage.TradeComplete"
+            android:exported="false" />
+        <activity
             android:name=".mypage.MyInfo"
             android:exported="false" />
         <activity
