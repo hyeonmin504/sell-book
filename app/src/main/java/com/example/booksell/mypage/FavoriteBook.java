@@ -5,6 +5,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -73,11 +75,47 @@ public class FavoriteBook extends AppCompatActivity {
                 String selectedBookName = bookInfo.getBookName();
                 String selectedBookAuthor = bookInfo.getBookAuthor();
 
-                // 다음 페이지로 정보 전달
-                Intent intent = new Intent(FavoriteBook.this, BookInfoPage.class);
-                intent.putExtra("bookName", selectedBookName);
-                intent.putExtra("bookAuthor", selectedBookAuthor);
-                startActivity(intent);
+                // Check if the selected book exists in the bookInfo collection
+                firestore.collection("bookInfo")
+                        .whereEqualTo("bookName", selectedBookName)
+                        .whereEqualTo("bookAuthor", selectedBookAuthor)
+                        .get()
+                        .addOnSuccessListener(queryDocumentSnapshots -> {
+                            if (!queryDocumentSnapshots.isEmpty()) {
+                                // The selected book exists in the bookInfo collection
+                                // Proceed with your current action
+
+                                // For example, starting a new activity
+                                Intent intent = new Intent(FavoriteBook.this, BookInfoPage.class);
+                                intent.putExtra("bookName", selectedBookName);
+                                intent.putExtra("bookAuthor", selectedBookAuthor);
+                                startActivity(intent);
+                            } else {
+                                firestore.collection("favorite")
+                                        .whereEqualTo("email", preferences.getString("email", ""))
+                                        .whereEqualTo("bookName", selectedBookName)
+                                        .whereEqualTo("bookAuthor", selectedBookAuthor)
+                                        .get()
+                                        .addOnSuccessListener(deleteQueryDocumentSnapshots -> {
+                                            for (QueryDocumentSnapshot deleteDocument : deleteQueryDocumentSnapshots) {
+                                                // 즐겨찾기 컬렉션에서 문서 삭제
+                                                firestore.collection("favorite")
+                                                        .document(deleteDocument.getId())
+                                                        .delete()
+                                                        .addOnSuccessListener(aVoid -> {
+                                                            // 로컬 목록에서 아이템 제거
+                                                            bookList.remove(bookInfo);
+
+                                                            // 어댑터에게 아이템 삭제를 알림
+                                                            adapter.notifyDataSetChanged();
+
+                                                            // 책이 제거되었음을 알리는 팝업 표시
+                                                            showBookRemovedPopup();
+                                                        });
+                                            }
+                                        });
+                            }
+                        });
             }
         });
 
@@ -87,5 +125,12 @@ public class FavoriteBook extends AppCompatActivity {
                 finish();
             }
         });
+    }
+    private void showBookRemovedPopup() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(FavoriteBook.this);
+        builder.setTitle("책이 판매되었습니다!");
+        builder.setMessage("책이 판매되어서 즐겨찾기에서 항목이 삭제됩니다");
+        builder.setPositiveButton("OK", (dialog, which) -> dialog.dismiss());
+        builder.show();
     }
 }

@@ -88,9 +88,7 @@ public class TradeComplete extends AppCompatActivity {
                     }
                 });
     }
-
     private interface OnNicknameFetchedListener {
         void onNicknameFetched(String nickname);
     }
 }
-
