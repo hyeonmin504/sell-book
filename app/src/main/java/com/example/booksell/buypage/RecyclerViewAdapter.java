@@ -5,11 +5,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.booksell.sellpage.Book;
 import com.example.booksell.R;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -54,12 +56,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView bookNameTextView;
         TextView bookAuthorTextView;
+        ImageView bookImageView; // 추가된 ImageView
 
         public ViewHolder(View itemView) {
             super(itemView);
             // View에서 각 항목에 대한 참조를 가져오기
             bookNameTextView = itemView.findViewById(R.id.name);
             bookAuthorTextView = itemView.findViewById(R.id.person);
+            bookImageView = itemView.findViewById(R.id.book_iv);
         }
     }
 
@@ -82,6 +86,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         // 데이터를 ViewHolder의 각 요소에 설정
         holder.bookNameTextView.setText(currentBook.getBookName());
         holder.bookAuthorTextView.setText(currentBook.getBookAuthor());
+
+
+        if (currentBook.getImageUrl() != null && !currentBook.getImageUrl().isEmpty()) {
+            // Glide를 사용하여 이미지 로드
+            Glide.with(holder.itemView.getContext())
+                    .load(currentBook.getImageUrl())
+                    .into(holder.bookImageView);
+        }
 
         // 아이템 클릭 이벤트 처리
         holder.itemView.setOnClickListener(new View.OnClickListener() {
