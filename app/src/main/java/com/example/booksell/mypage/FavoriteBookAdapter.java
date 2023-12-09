@@ -3,11 +3,13 @@ package com.example.booksell.mypage;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.booksell.R;
 
 import java.util.List;
@@ -58,6 +60,13 @@ public class FavoriteBookAdapter extends RecyclerView.Adapter<FavoriteBookAdapte
         holder.bookNameTextView.setText(bookInfo.getBookName());
         holder.bookAuthorTextView.setText(bookInfo.getBookAuthor());
 
+        if (bookInfo.getImageUrl() != null && !bookInfo.getImageUrl().isEmpty()) {
+            // Glide나 Picasso를 사용하여 이미지 로드
+            Glide.with(holder.itemView.getContext())
+                    .load(bookInfo.getImageUrl())
+                    .into(holder.bookImageView);
+        }
+
         // 클릭 이벤트 처리
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,10 +88,13 @@ public class FavoriteBookAdapter extends RecyclerView.Adapter<FavoriteBookAdapte
         TextView bookNameTextView;
         TextView bookAuthorTextView;
 
+        ImageView bookImageView;
+
         public ViewHolder(View itemView) {
             super(itemView);
             bookNameTextView = itemView.findViewById(R.id.name);
             bookAuthorTextView = itemView.findViewById(R.id.person);
+            bookImageView = itemView.findViewById(R.id.book_iv);
             // 필요한 다른 뷰를 여기에 연결하세요.
         }
     }

@@ -60,10 +60,11 @@ public class SellBook extends AppCompatActivity {
                     for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
                         String bookName = document.getString("bookName");
                         String bookAuthor = document.getString("bookAuthor");
+                        String imageUrl = document.getString("imageUrl");
                         // 필요한 다른 필드도 가져올 수 있습니다.
 
                         // 가져온 데이터를 모델 객체에 추가
-                        FavoriteBookInfo bookInfo = new FavoriteBookInfo(bookName, bookAuthor, email);
+                        FavoriteBookInfo bookInfo = new FavoriteBookInfo(bookName, bookAuthor, email, imageUrl);
 
                         // 문서 ID 설정
                         bookInfo.setDocumentId(document.getId());

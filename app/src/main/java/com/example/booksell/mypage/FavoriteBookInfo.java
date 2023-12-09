@@ -5,6 +5,7 @@ public class FavoriteBookInfo {
     private String bookAuthor;
     private String email;
     private String documentId;
+    private String imageUrl;
 
     public String getEmail() {
         return email;
@@ -14,10 +15,17 @@ public class FavoriteBookInfo {
         // 기본 생성자
     }
 
-    public FavoriteBookInfo(String bookName, String bookAuthor,String email) {
+    public FavoriteBookInfo(String bookName,String bookAuthor, String email) {
         this.bookName = bookName;
         this.bookAuthor = bookAuthor;
         this.email = email;
+    }
+
+    public FavoriteBookInfo(String bookName, String bookAuthor,String email, String imageUrl) {
+        this.bookName = bookName;
+        this.bookAuthor = bookAuthor;
+        this.email = email;
+        this.imageUrl = imageUrl;
     }
 
     public void setDocumentId(String documentId) {
@@ -34,6 +42,10 @@ public class FavoriteBookInfo {
 
     public String getBookAuthor() {
         return bookAuthor;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
     }
     // 다른 필요한 getter 및 setter 메서드 추가
 }
