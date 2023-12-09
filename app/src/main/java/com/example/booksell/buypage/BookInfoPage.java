@@ -107,7 +107,7 @@ public class BookInfoPage extends AppCompatActivity {
                     public void onComplete(Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                Double bookPrice = document.getDouble("bookPrice");
+                                Long bookPrice = document.getLong("bookPrice");
                                 String publisher = document.getString("publisher");
                                 String publisherDate = document.getString("publisher_date");
                                 String state = document.getString("state");
@@ -129,7 +129,8 @@ public class BookInfoPage extends AppCompatActivity {
 
                                 if (bookPrice != null) {
                                     TextView bookPriceTextView = findViewById(R.id.priceTextView);
-                                    bookPriceTextView.setText("가격: " + bookPrice);
+                                    int intPrice = bookPrice.intValue();
+                                    bookPriceTextView.setText("가격: " + intPrice + "원");
                                 }
                                 // publisher, publisher_date, state를 TextView 등을 사용하여 표시
                                 TextView publisherTextView = findViewById(R.id.publisherTextView);
