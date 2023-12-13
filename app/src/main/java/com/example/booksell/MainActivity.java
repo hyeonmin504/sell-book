@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.booksell.buypage.BuyPage;
-import com.example.booksell.sellpage.ImageSliderAdapter;
+import com.example.booksell.service.ImageSliderAdapter;
 
 public class MainActivity extends AppCompatActivity {
     private ViewPager viewPager;

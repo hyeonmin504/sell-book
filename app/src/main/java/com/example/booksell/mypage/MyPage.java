@@ -13,7 +13,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.example.booksell.service.Before_constructionpage;
+import com.example.booksell.service.termsofServicee;
 import com.example.booksell.R;
 import com.example.booksell.buypage.BuyPage;
 import com.example.booksell.chatpage.ChatListPage;
@@ -104,8 +104,11 @@ public class MyPage extends AppCompatActivity {
                 } else if(position == 3){
                     Intent intent = new Intent(MyPage.this, TradeComplete.class);
                     startActivity(intent);
-                } else if(position == 4 || position == 5){
-                    Intent intent = new Intent(MyPage.this, Before_constructionpage.class);
+                } else if(position == 4){
+                    Intent intent = new Intent(MyPage.this, assistance.class);
+                    startActivity(intent);
+                } else if(position == 5){
+                    Intent intent = new Intent(MyPage.this, termsofServicee.class);
                     startActivity(intent);
                 } else if( position == 6){
                     Lv_mypage.setVisibility(View.INVISIBLE);

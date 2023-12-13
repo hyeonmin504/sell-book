@@ -8,14 +8,14 @@ import android.widget.TextView;
 
 import com.example.booksell.R;
 
-public class Before_constructionpage extends AppCompatActivity {
+public class termsofServicee extends AppCompatActivity {
 
     TextView tv_back;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_before_constructionpage);
-        tv_back = findViewById(R.id.tv_back);
+        tv_back = findViewById(R.id.agreeButton);
 
         tv_back.setOnClickListener(new View.OnClickListener() {
             @Override
