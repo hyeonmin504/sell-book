@@ -48,7 +48,9 @@ public class ChatActivity extends AppCompatActivity {
     private String nick;
     private EditText EditText_chat;
     private Button Button_send,btn_back;
+    //리얼타임 데이터 베이스
     private DatabaseReference myRef;
+    //데이터베이스 스토어
     private FirebaseFirestore db;
     boolean isLoggedIn = false;
     private Button btn_check;
@@ -99,7 +101,7 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
 
-        //채팅 전송
+        //채팅 전송, 리얼타임 데이터베이스를 활용해서 구현(myref)
         Button_send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
