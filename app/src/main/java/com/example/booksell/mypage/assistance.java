@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.booksell.R;
 
@@ -41,7 +42,7 @@ public class assistance extends AppCompatActivity {
         });
     }
     public void onInquiryButtonClick(View view) {
-        // 문의하기 버튼이 클릭되었을 때 실행되는 메서드
+        Toast.makeText(assistance.this, "문의 완료", Toast.LENGTH_SHORT).show();
         String inquiryText = inquiryEditText.getText().toString();
         // inquiryText를 사용하여 문의 처리 로직을 추가할 수 있습니다.
     }
