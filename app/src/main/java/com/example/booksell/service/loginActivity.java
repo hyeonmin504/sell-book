@@ -23,8 +23,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
-// ...
-
+//로그인 페이지
 public class loginActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
@@ -45,19 +44,20 @@ public class loginActivity extends AppCompatActivity {
         passwordEditText = findViewById(R.id.editTextPassword);
         loginButton = findViewById(R.id.buttonLogin);
 
+        //로그인 버튼
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 final String email = emailEditText.getText().toString();
                 final String password = passwordEditText.getText().toString();
-
+                //파이어베이스의 auth기능을 통한 회원가입 한 사람인지 비교
                 mAuth.signInWithEmailAndPassword(email, password)
                         .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
+                                //회원 정보가 있을 때
                                 if (task.isSuccessful()) {
-                                    // 로그인 성공
-                                    // 사용자의 이메일을 기반으로 Firestore에서 닉네임을 가져오기
+                                    //파이어스토어에도 로그인 정보 저장, 하지만 여기에는 비번은 저장하지 않습니다
                                     firestore.collection("users")
                                             .whereEqualTo("email", email)
                                             .get()
@@ -67,10 +67,9 @@ public class loginActivity extends AppCompatActivity {
                                                     if (task.isSuccessful() && task.getResult() != null) {
                                                         QuerySnapshot querySnapshot = task.getResult();
                                                         if (!querySnapshot.isEmpty()) {
+                                                            //로그인을 함과 동시에 현재 로그인 중인 사용자 정보를 preferences로 이메일, 닉네임, 로그인 유무 정보 저장
                                                             DocumentSnapshot documentSnapshot = querySnapshot.getDocuments().get(0);
                                                             String nickname = documentSnapshot.getString("nickname");
-
-                                                            // 예: SharedPreferences를 사용하여 로그인 상태 및 정보 저장
                                                             Log.d("LoginActivity", "Nickname: " + nickname);
 
                                                             SharedPreferences preferences = getSharedPreferences("user_prefs", MODE_PRIVATE);
@@ -80,10 +79,9 @@ public class loginActivity extends AppCompatActivity {
                                                             editor.putString("nickname", nickname);
                                                             editor.apply();
 
-                                                            // 로그인 성공
                                                             Toast.makeText(loginActivity.this, "로그인 성공", Toast.LENGTH_SHORT).show();
 
-                                                            // 로그인 성공 시 MyPage 액티비티로 이동
+                                                            // 로그인 성공 시 구매 페이지로 이동, 이제 채팅,마이페이지 뷰 사용 가능
                                                             Intent intent = new Intent(loginActivity.this, BuyPage.class);
                                                             startActivity(intent);
                                                         } else {
@@ -105,7 +103,7 @@ public class loginActivity extends AppCompatActivity {
             }
         });
 
-        // 회원가입 버튼 리스너 설정
+        // 회원가입하러 고고
         buttonsignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

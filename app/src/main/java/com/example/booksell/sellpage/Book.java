@@ -2,6 +2,7 @@ package com.example.booksell.sellpage;
 
 import android.util.Log;
 
+//bookInfo DB에 저장할 책 정보 생성자, 게터세터
 public class Book {
     private String bookName;
     private String email;

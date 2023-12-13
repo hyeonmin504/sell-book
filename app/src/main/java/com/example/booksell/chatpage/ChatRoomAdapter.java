@@ -19,6 +19,7 @@ import org.w3c.dom.Text;
 
 import java.util.List;
 
+//채팅룸기능 어뎁터
 public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ChatRoomViewHolder> {
 
     private Context context;
@@ -29,6 +30,7 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ChatRo
         this.chatRooms = chatRooms;
     }
 
+    //채팅룸을 가져오기
     @NonNull
     @Override
     public ChatRoomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -36,10 +38,12 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ChatRo
         return new ChatRoomViewHolder(view);
     }
 
+    //생성자
     public void setChatRooms(List<ChatRoom> chatRooms) {
         this.chatRooms = chatRooms;
     }
 
+    //채팅방 묶어두기
     @Override
     public void onBindViewHolder(@NonNull ChatRoomViewHolder holder, int position) {
         ChatRoom chatRoom = chatRooms.get(position);
@@ -51,6 +55,7 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ChatRo
         return chatRooms.size();
     }
 
+    //채팅방 객체 판매자 구매자 책이름 가격 정보 가져오기
     public class ChatRoomViewHolder extends RecyclerView.ViewHolder {
 
         private TextView sellerTextView;
@@ -60,13 +65,13 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ChatRo
 
         public ChatRoomViewHolder(@NonNull View itemView) {
             super(itemView);
-
             sellerTextView = itemView.findViewById(R.id.sellerTextView);
             bookNameTextView = itemView.findViewById(R.id.bookNameTextView);
             priceTextView = itemView.findViewById(R.id.priceTextView);
             buyerTextView = itemView.findViewById(R.id.buyerTextView);
         }
 
+        //1대1채팅 버튼 누르고 넘어온 정보를 가지고 구매자 판매자 책이름 가격 정보 저장하기
         public void bind(ChatRoom chatRoom) {
             fetchNickname(chatRoom.getSeller(), sellerTextView, "판매자: ");
             fetchNickname(chatRoom.getBuyer(), buyerTextView, "구매자: ");
@@ -85,7 +90,7 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ChatRo
 
                 Intent intent = new Intent(context, ChatActivity.class);
 
-                // 판매자 정보 가져오기
+                // user DB에서 판매자 정보인 이메일 말고 닉네임으로 바꿔서 1대1 채팅방으로 보내기
                 usersCollection
                         .whereEqualTo("email", seller)
                         .get()
@@ -98,7 +103,7 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ChatRo
                                     intent.putExtra("seller", sellerNickname); // sellerNickname으로 수정
                                     intent.putExtra("sellerEmail", seller); // 이메일 추가
 
-                                    // 구매자 정보 가져오기
+                                    // 구매자도 마찬가지로 닉네임 가져오기
                                     usersCollection
                                             .whereEqualTo("email", buyer)
                                             .get()
@@ -107,12 +112,12 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ChatRo
                                                     DocumentSnapshot documentSnapshot1 = queryDocumentSnapshots1.getDocuments().get(0);
                                                     String buyerNickname = documentSnapshot1.getString("nickname");
 
+                                                    // 나머지 정보 저장해서 1대1채팅방으로 넘어가기
                                                     if (buyerNickname != null) {
-                                                        intent.putExtra("buyer", buyerNickname); // buyerNickname으로 수정
-                                                        intent.putExtra("buyerEmail", buyer); // 이메일 추가
+                                                        intent.putExtra("buyer", buyerNickname);
+                                                        intent.putExtra("buyerEmail", buyer);
                                                         intent.putExtra("bookName", chatRoom.getBookName());
 
-                                                        // 여기에 startActivity 추가
                                                         context.startActivity(intent);
                                                     }
                                                 }
@@ -123,6 +128,9 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ChatRo
             });
         }
 
+        //채팅방 리스트를 보여줄 때 이메일을 닉네임으로 다 치환
+        //위 코드와 중복되는 이유는 db를 설계할 때 pk를 만들지 않아서 데이터 중복이 발생했습니다(혼합키로 pk(불완전)를 설정했습니다).
+        //이 점은 리펙토링을 해야하는 부분입니다.
         private void fetchNickname(String userEmail, TextView textView, String rolePrefix) {
             FirebaseFirestore firestore = FirebaseFirestore.getInstance();
             CollectionReference usersCollection = firestore.collection("users");
@@ -149,12 +157,11 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ChatRo
                     });
         }
 
-        // 가격 가져와서 TextView에 설정
+        //가격정보는 bookinfo DB에서 책 이름을 통해 가지고 가져옴
         private void fetchPrice(String seller, String bookName, TextView priceTextView) {
             FirebaseFirestore firestore = FirebaseFirestore.getInstance();
             CollectionReference bookInfoCollection = firestore.collection("bookInfo");
 
-            // bookInfo 컬렉션에서 해당 판매자와 도서명에 맞는 가격을 가져옴
             bookInfoCollection.whereEqualTo("email", seller)
                     .whereEqualTo("bookName", bookName)
                     .get()

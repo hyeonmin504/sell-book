@@ -33,6 +33,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+//채팅방 리스트 페이지
 public class ChatListPage extends AppCompatActivity {
     Button btn_my, btn_chat, btn_sell, btn_buy;
     RecyclerView recyclerView;
@@ -46,7 +47,7 @@ public class ChatListPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_list_page);
 
-        // 툴바를 액티비티에 설정
+        // 메뉴(툴바)바 = 액티비티에 설정
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("채팅 List");
@@ -63,29 +64,27 @@ public class ChatListPage extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
 
-        // SharedPreferences를 통해 로그인 상태 가져오기
+        // 현재 로그인 정보 가져오기
         SharedPreferences preferences = getSharedPreferences("user_prefs", MODE_PRIVATE);
         isLoggedIn = preferences.getBoolean("isLoggedIn", false);
 
+        //로그인 유무에 따른 뷰
         if (isLoggedIn) {
-            // 리스트뷰를 보이도록 설정
             tv_login.setVisibility(View.GONE);
             recyclerView.setVisibility(View.VISIBLE);
 
         } else {
-            // 사용자가 로그인하지 않은 경우, 로그인 화면으로 이동
             tv_login.setVisibility(View.VISIBLE);
         }
 
+        //로그인 안했을 때 보이는 뷰에서 로그인하기 버튼을 눌렀을 때
         tv_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (!isLoggedIn) {
-                    // 사용자가 로그인하지 않은 경우, 로그인 화면으로 이동
                     Intent intent = new Intent(ChatListPage.this, loginActivity.class);
                     startActivity(intent);
                 } else {
-                    // 사용자가 로그인한 경우, 리스트뷰를 보이도록 설정
                     tv_login.setVisibility(View.GONE);
                     recyclerView.setVisibility(View.VISIBLE);
                 }
@@ -106,6 +105,7 @@ public class ChatListPage extends AppCompatActivity {
         // 데이터 가져오기
         filterBuyingChats();
 
+        //메뉴바
         btn_buy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -138,26 +138,25 @@ public class ChatListPage extends AppCompatActivity {
             }
         });
     }
+
+    //메뉴 툴바 생성
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // 메뉴 인플레이터를 사용하여 메뉴를 만듭니다.
         getMenuInflater().inflate(R.menu.menu_chat_list, menu);
         return true;
     }
 
+    //메뉴바 판매중인 책 구매중인 책
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // 메뉴 아이템 선택에 대한 처리를 여기에 추가합니다.
         int id = item.getItemId();
 
         switch (id) {
             case R.id.menu_filter_selling:
-                // Selling Chats 메뉴 선택 시
                 filterSellingChats();
                 return true;
 
             case R.id.menu_filter_buying:
-                // Buying Chats 메뉴 선택 시
                 filterBuyingChats();
                 return true;
 
@@ -179,10 +178,8 @@ public class ChatListPage extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         DocumentSnapshot documentSnapshot = task.getResult();
                         if (documentSnapshot.exists()) {
-                            // 중복된 데이터가 있으면 메시지 표시
                             Toast.makeText(ChatListPage.this, "이미 존재하는 채팅방입니다.", Toast.LENGTH_SHORT).show();
                         } else {
-                            // 중복된 데이터가 없으면 저장
                             if (seller.equals(buyer)) {
                                 Toast.makeText(ChatListPage.this, "사용자가 등록한 책입니다.", Toast.LENGTH_SHORT).show();
                             } else {
@@ -190,14 +187,11 @@ public class ChatListPage extends AppCompatActivity {
                                 chatRoomsCollection.document(documentId)
                                         .set(chatRoom)
                                         .addOnSuccessListener(aVoid -> {
-                                            // 성공적으로 저장된 경우
                                             Toast.makeText(ChatListPage.this, "채팅방 생성 완료", Toast.LENGTH_SHORT).show();
 
-                                            // 저장 후에 목록을 갱신
                                             filterBuyingChats();
                                         })
                                         .addOnFailureListener(e -> {
-                                            // 저장 실패한 경우
                                             Toast.makeText(ChatListPage.this, "채팅방 생성 실패", Toast.LENGTH_SHORT).show();
                                         });
                             }
@@ -209,7 +203,7 @@ public class ChatListPage extends AppCompatActivity {
                 });
     }
 
-    // 판매 중인 채팅을 가져오는 메서드
+    // 판매 중인 채팅목록을 가져오는 메서드
     private void filterSellingChats() {
         FirebaseFirestore firestore = FirebaseFirestore.getInstance();
         CollectionReference chatRoomsCollection = firestore.collection("chatRoomNum");
@@ -232,7 +226,7 @@ public class ChatListPage extends AppCompatActivity {
                 });
     }
 
-    // 구매 중인 채팅을 가져오는 메서드
+    // 구매 중인 채팅목록을 가져오는 메서드
     private void filterBuyingChats() {
         FirebaseFirestore firestore = FirebaseFirestore.getInstance();
         CollectionReference chatRoomsCollection = firestore.collection("chatRoomNum");

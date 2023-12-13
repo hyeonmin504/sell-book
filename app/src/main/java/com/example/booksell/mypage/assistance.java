@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.example.booksell.R;
 
+//문의 페이지
 public class assistance extends AppCompatActivity {
     boolean isLoggedIn = false;
     private TextView displayedEmailTextView;
@@ -30,7 +31,6 @@ public class assistance extends AppCompatActivity {
         displayedEmailTextView = findViewById(R.id.displayedEmailTextView);
         inquiryEditText = findViewById(R.id.inquiryEditText);
 
-        // 로그인된 이메일을 여기에서 설정하거나, 로그인 기능이 구현되었다면 해당 정보로 설정할 수 있습니다.
         String loggedInEmail = email;
         displayedEmailTextView.setText(loggedInEmail);
 
@@ -41,9 +41,10 @@ public class assistance extends AppCompatActivity {
             }
         });
     }
+
+    //따로 제출을 눌러도 정보를 전달하진 않습니다. (핵심 기능이 아니기에 구현하지 않았습니다)
     public void onInquiryButtonClick(View view) {
         Toast.makeText(assistance.this, "문의 완료", Toast.LENGTH_SHORT).show();
         String inquiryText = inquiryEditText.getText().toString();
-        // inquiryText를 사용하여 문의 처리 로직을 추가할 수 있습니다.
     }
 }

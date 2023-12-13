@@ -1,5 +1,6 @@
 package com.example.booksell.mypage;
 
+//즐겨찾기 리사이클뷰를 위한 게터세터및 생성자
 public class FavoriteBookInfo {
     private String bookName;
     private String bookAuthor;

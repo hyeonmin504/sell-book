@@ -22,6 +22,7 @@ import com.example.booksell.sellpage.SellPage;
 
 import java.util.ArrayList;
 
+//마이페이지 리스트뷰 부분
 public class MyPage extends AppCompatActivity {
     ListView Lv_mypage;
     TextView tv_login;
@@ -48,43 +49,36 @@ public class MyPage extends AppCompatActivity {
 
         Log.d(String.valueOf(isLoggedIn), "onCreate: ");
 
+        //로그인 안한 경우 다른 화면 바꾸기
         tv_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (!isLoggedIn) {
-                    // 사용자가 로그인하지 않은 경우, 로그인 화면으로 이동
                     Intent intent = new Intent(MyPage.this, loginActivity.class);
                     startActivity(intent);
                 } else {
-                    // 사용자가 로그인한 경우, 리스트뷰를 보이도록 설정
                     tv_login.setVisibility(View.INVISIBLE);
                     Lv_mypage.setVisibility(View.VISIBLE);
                 }
             }
         });
 
-        // SharedPreferences를 통해 로그인 상태 가져오기
+        // 로그인 상태 체크
         SharedPreferences preferences = getSharedPreferences("user_prefs", MODE_PRIVATE);
         isLoggedIn = preferences.getBoolean("isLoggedIn", false);
         String email = preferences.getString("email", "");
 
         Log.d("LoginStatus", "isLoggedIn: " + isLoggedIn);
 
-        // 사용자가 로그인한 경우에만 내 정보 및 기타 버튼을 활성화
+        // 로그인에 따라 뷰 설정
         if (isLoggedIn) {
-            // 리스트뷰를 보이도록 설정
             tv_login.setVisibility(View.INVISIBLE);
             Lv_mypage.setVisibility(View.VISIBLE);
-
         } else {
-            // 사용자가 로그인하지 않은 경우, 로그인 화면으로 이동
             tv_login.setVisibility(View.VISIBLE);
         }
 
-
-
-
-        // ArrayAdapter를 사용하여 ListView에 아이템을 연결
+        // 리스트뷰 생성
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, itemList);
         Lv_mypage.setAdapter(adapter);
 
@@ -150,6 +144,8 @@ public class MyPage extends AppCompatActivity {
             }
         });
     }
+
+    //로그아웃 버튼을 눌렀을 때 preference 정보 삭제및 로그아웃 적용
     private void logout() {
         // SharedPreferences를 통해 로그인 상태를 변경
         SharedPreferences preferences = getSharedPreferences("user_prefs", MODE_PRIVATE);

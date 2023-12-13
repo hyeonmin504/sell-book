@@ -23,10 +23,8 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
+//판매중인 책 정보 보여주는 페이지
 public class SellBook extends AppCompatActivity {
-
-    private static final long DOUBLE_CLICK_INTERVAL = 2000; // 2 seconds
-    private long lastClickTime = 0;
     RecyclerView rv;
     Button btn_back;
     List<FavoriteBookInfo> bookList;
@@ -48,35 +46,28 @@ public class SellBook extends AppCompatActivity {
         SharedPreferences preferences = getSharedPreferences("user_prefs", MODE_PRIVATE);
         isLoggedIn = preferences.getBoolean("isLoggedIn", false);
         String email = preferences.getString("email","");
-
-        // RecyclerView 어댑터를 초기화
         adapter = new FavoriteBookAdapter(bookList);
         rv.setAdapter(adapter);
-        // Firestore에서 데이터를 가져옵니다.
+
+        //책 정보 DB에서 내가 판매중인 책의 이름 저자 이미지 정보만 가져옵니다
         firestore.collection("bookInfo") // favorite 컬렉션 이름
-                .whereEqualTo("email", preferences.getString("email", "")) // 현재 로그인한 사용자의 이메일과 일치하는 문서만 가져오기
+                .whereEqualTo("email", preferences.getString("email", ""))
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
                         String bookName = document.getString("bookName");
                         String bookAuthor = document.getString("bookAuthor");
                         String imageUrl = document.getString("imageUrl");
-                        // 필요한 다른 필드도 가져올 수 있습니다.
-
-                        // 가져온 데이터를 모델 객체에 추가
                         FavoriteBookInfo bookInfo = new FavoriteBookInfo(bookName, bookAuthor, email, imageUrl);
 
-                        // 문서 ID 설정
                         bookInfo.setDocumentId(document.getId());
-
                         bookList.add(bookInfo);
                     }
-
-                    // 데이터가 변경되었음을 어댑터에 알림
+                    //최신화
                     adapter.notifyDataSetChanged();
                 });
 
-        // 클릭 리스너 설정
+        //판매중인 책 리스트 클릭 시 showDeleteConfirmationDialog로 이동
         adapter.setOnItemClickListener(new FavoriteBookAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(FavoriteBookInfo bookInfo) {
@@ -84,6 +75,7 @@ public class SellBook extends AppCompatActivity {
             }
         });
 
+        //마이페이지로 돌아가기
         btn_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -92,7 +84,7 @@ public class SellBook extends AppCompatActivity {
         });
     }
 
-    // 삭제 확인 다이얼로그 표시
+    //정말 삭제할건지 팝업창 띄우는 메서드
     private void showDeleteConfirmationDialog(final FavoriteBookInfo bookInfo) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("삭제 확인");
@@ -113,7 +105,7 @@ public class SellBook extends AppCompatActivity {
         builder.show();
     }
 
-    // 데이터베이스에서 책 삭제
+    // 책정보 DB에서 책 삭제
     private void deleteBookFromDatabase(FavoriteBookInfo bookInfo) {
         // bookInfo의 documentId를 가져옴 (FavoriteBookInfo 클래스에 getDocumentId 메서드 필요)
         String documentId = bookInfo.getDocumentId();

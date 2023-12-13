@@ -21,6 +21,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
+//chatActivity에서 거래 완료된 정보를 보여줍니다
 public class TradeComplete extends AppCompatActivity {
 
     private ListView lv_tradeList;
@@ -38,6 +39,7 @@ public class TradeComplete extends AppCompatActivity {
         SharedPreferences preferences = getSharedPreferences("user_prefs", MODE_PRIVATE);
         String email = preferences.getString("email", "");
 
+        //tradeList DB를 구매자 = 현재 접속한 사람 기준으로 구매내역을 보여줍니다
         db.collection("tradeList")
                 .whereEqualTo("buyer", email)
                 .get()
@@ -50,7 +52,7 @@ public class TradeComplete extends AppCompatActivity {
                                 String bookName = document.getString("bookName");
                                 String sellerEmail = document.getString("seller");
 
-                                // 이메일을 사용하여 seller의 닉네임 가져오기
+                                // 이메일을 사용하여 판매자의 닉네임 가져오기
                                 getNicknameFromEmail(sellerEmail, new OnNicknameFetchedListener() {
                                     @Override
                                     public void onNicknameFetched(String nickname) {
@@ -64,6 +66,7 @@ public class TradeComplete extends AppCompatActivity {
                     }
                 });
 
+        //뒤로가기
         btn_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -73,6 +76,7 @@ public class TradeComplete extends AppCompatActivity {
         });
     }
 
+    //닉네임으로 바꾸는 메서드
     private void getNicknameFromEmail(String email, OnNicknameFetchedListener listener) {
         db.collection("users")
                 .whereEqualTo("email", email)

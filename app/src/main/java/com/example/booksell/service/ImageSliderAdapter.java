@@ -9,6 +9,7 @@ import androidx.viewpager.widget.PagerAdapter;
 
 import com.example.booksell.R;
 
+//앱 실행시 맨 초기 화면 이미지 슬라이더 어뎁터
 public class ImageSliderAdapter extends PagerAdapter {
     private Context context;
     private int[] images = {R.drawable.image1, R.drawable.image2, R.drawable.image4,R.drawable.image5,R.drawable.image6};
@@ -27,6 +28,7 @@ public class ImageSliderAdapter extends PagerAdapter {
         return view == object;
     }
 
+    //이미지 슬라이드 되도록 만든 메서드
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
         LayoutInflater inflater = LayoutInflater.from(context);

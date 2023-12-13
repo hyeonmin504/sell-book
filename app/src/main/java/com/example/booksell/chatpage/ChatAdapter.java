@@ -14,6 +14,7 @@ import com.example.booksell.R;
 
 import java.util.List;
 
+//1대1 채팅 로직
 public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> {
     private List<ChatData> mDataset;
     private String myNickName;

@@ -30,11 +30,10 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-
+//책 리스트에서 책을 클릭하면 클릭한 책 정보가 나오는 페이지
 public class BookInfoPage extends AppCompatActivity {
     Button btn_star, btn_sub;
     private static String seller;
-    // Firestore 관련
     private FirebaseFirestore firestore;
     boolean isLoggedIn = false;
 
@@ -54,7 +53,7 @@ public class BookInfoPage extends AppCompatActivity {
         SharedPreferences preferences = getSharedPreferences("user_prefs", MODE_PRIVATE);
         isLoggedIn = preferences.getBoolean("isLoggedIn", false);
 
-        // 정보 받아오기
+        // BuyPage에서 책 정보 받아오기
         Intent intent = getIntent();
         String bookName = intent.getStringExtra("bookName");
         String bookAuthor = intent.getStringExtra("bookAuthor");
@@ -62,17 +61,18 @@ public class BookInfoPage extends AppCompatActivity {
         // 받아온 정보를 페이지의 TextView 등을 사용하여 표시
         TextView bookNameTextView = findViewById(R.id.bookNameTextView);
         TextView bookAuthorTextView = findViewById(R.id.bookAuthorTextView);
-
         bookNameTextView.setText("책 이름: " + bookName);
         bookAuthorTextView.setText("담당교수: " + bookAuthor);
+
+        //현재 로그인중인 유저 이메일 가져오기
         final String[] email = {preferences.getString("email", "")};
 
+        //즐겨찾기 버튼
         btn_star.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // Firestore에서 favorite 컬렉션에 책 정보 추가
                 FavoriteBookInfo favoriteBookInfo = new FavoriteBookInfo(bookName, bookAuthor, email[0]);
-
                 firestore.collection("favorite")
                         .add(favoriteBookInfo)
                         .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
@@ -89,15 +89,13 @@ public class BookInfoPage extends AppCompatActivity {
                                 Log.w(TAG, "Error adding document", e);
                             }
                         });
-                // 즐겨찾기 버튼을 클릭했을 때 FavoriteBook 페이지로 이동하는 인텐트 생성
+                // 즐겨찾기 버튼을 클릭했을 때 mypage/FavoriteBook 페이지로 이동하는 인텐트 생성
                 Intent favoriteBookIntent = new Intent(BookInfoPage.this, FavoriteBook.class);
-
-                // FavoriteBook 페이지로 이동
                 startActivity(favoriteBookIntent);
             }
         });
 
-        // Firestore에서 책 가격(bookPrice) 가져오기
+        // Firestore에서 책 이름과 저자에 맞는 정보 가져오기
         firestore.collection("bookInfo")
                 .whereEqualTo("bookName", bookName)
                 .whereEqualTo("bookAuthor", bookAuthor)
@@ -168,11 +166,11 @@ public class BookInfoPage extends AppCompatActivity {
                                 }
                             }
                         } else {
-                            // 검색 실패 처리
                         }
                     }
                 });
 
+        //chatpage/chatListPage로 판매자와 구매자 정보 가지고 이동
         btn_sub.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

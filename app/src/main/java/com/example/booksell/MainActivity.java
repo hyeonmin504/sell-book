@@ -13,6 +13,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.example.booksell.buypage.BuyPage;
 import com.example.booksell.service.ImageSliderAdapter;
 
+//맨 초기화면 service/imageSliderAdapter과 같이 쓰이는 초기 화면
 public class MainActivity extends AppCompatActivity {
     private ViewPager viewPager;
     private ImageSliderAdapter adapter;
@@ -30,10 +31,10 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAdapter(adapter);
         textView = findViewById(R.id.textView);
 
+        //하단에 여기를 누르세요 버튼 부분
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // 클릭 이벤트 발생 시, 다른 액티비티로 전환
                 Intent intent = new Intent(MainActivity.this, BuyPage.class);
                 startActivity(intent);
             }

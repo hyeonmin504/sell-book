@@ -2,6 +2,7 @@ package com.example.booksell.chatpage;
 
 import java.io.Serializable;
 
+//채팅 데이터 getter, setter
 public class ChatData implements Serializable {
     private String msg;
     private String nickname;

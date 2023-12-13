@@ -34,6 +34,7 @@ import com.google.firebase.storage.StorageReference;
 
 import java.util.UUID;
 
+//판매 페이지
 public class SellPage extends AppCompatActivity {
     private FirebaseFirestore firestore;
     Button btn_my, btn_chat,btn_sell,btn_buy;
@@ -69,12 +70,13 @@ public class SellPage extends AppCompatActivity {
         CB_write3 = findViewById(R.id.CB_write3);
 
 
-        // SharedPreferences를 통해 로그인 상태와 사용자 정보 가져오기
+        // 로그인한 사람 정보를 가져오기 db에 저장하기 위해
         SharedPreferences preferences = getSharedPreferences("user_prefs", MODE_PRIVATE);
         isLoggedIn = preferences.getBoolean("isLoggedIn", false);
 
         imageview = findViewById(R.id.iv_book);
 
+        //제출 버튼을 누르면 현재 작성한 정보를 전부 bookInfo DB에 저장
         btn_sub.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -109,12 +111,12 @@ public class SellPage extends AppCompatActivity {
                 }
             }
         });
+
+        //이미지를 업로드 하기 위한 코드
         ActivityResultLauncher<Intent> launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),new ActivityResultCallback<ActivityResult>(){
                     @Override
-                    public void onActivityResult(ActivityResult result)
-                    {
-                        if (result.getResultCode() == RESULT_OK)
-                        {
+                    public void onActivityResult(ActivityResult result) {
+                        if (result.getResultCode() == RESULT_OK) {
                             Log.e(TAG, "result : " + result);
                             Intent intent = result.getData();
                             Log.e(TAG, "intent : " + intent);
@@ -172,10 +174,10 @@ public class SellPage extends AppCompatActivity {
 
     private void uploadBookData(String title, String author, double price, String publisher, String publisher_date, String state,
                                 boolean state1, boolean state2, boolean state3, boolean write1, boolean write2, boolean write3, String email, String imageUrl) {
-        // Firestore에 업로드할 데이터 생성
+        // DB에 업로드할 책 데이터 생성
         Book book = new Book(title, author, price, publisher, publisher_date, state, state1, state2, state3, write1, write2, write3, email, imageUrl); // Book 클래스의 생성자에 title과 author 전달
 
-        // Firestore에 데이터 업로드
+        // DB에 데이터 업로드
         firestore.collection("bookInfo")
                 .document() // Firestore에서 자동 생성된 고유 ID로 문서 추가
                 .set(book, SetOptions.merge())
@@ -183,15 +185,10 @@ public class SellPage extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
-                            // 업로드 성공
-                            // 필요한 처리를 수행하세요
                             Toast.makeText(getApplicationContext(), "제출 완료되었습니다!", Toast.LENGTH_LONG).show();
 
                         } else {
-                            // 업로드 실패
-                            // 오류 처리를 수행하세요
                             Toast.makeText(getApplicationContext(), "제출 중 오류가 발생했습니다!", Toast.LENGTH_LONG).show();
-
                         }
                     }
                 });

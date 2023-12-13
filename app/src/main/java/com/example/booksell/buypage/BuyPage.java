@@ -18,6 +18,7 @@ import com.example.booksell.sellpage.SellPage;
 import com.example.booksell.chatpage.ChatListPage;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+//검색하고 책 정보를 보는 구매 페이지
 public class BuyPage extends AppCompatActivity {
 
     private FirebaseFirestore firestore;
@@ -34,13 +35,13 @@ public class BuyPage extends AppCompatActivity {
         btn_sell = findViewById(R.id.btn_sell);
         btn_buy = findViewById(R.id.btn_buy);
         recyclerView = findViewById(R.id.recyclerview);
-        // Firestore 인스턴스 초기화
         firestore = FirebaseFirestore.getInstance();
 
+        //책 정보 리사이클 뷰로 보여줌
         recyclerView.setAdapter(new RecyclerViewAdapter(this));
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        // 스피너 초기화
+        //현재 검색하려는 기준
         Spinner spinner = findViewById(R.id.spinner);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -64,6 +65,7 @@ public class BuyPage extends AppCompatActivity {
         Button searchBtn = findViewById(R.id.searchBtn);
         EditText searchWord = findViewById(R.id.searchWord);
 
+        //검색버튼
         searchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

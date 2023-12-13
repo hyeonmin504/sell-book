@@ -18,8 +18,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
+//mypage의 즐겨찾기페이지 페이지
 public class FavoriteBook extends AppCompatActivity {
 
     RecyclerView rv;
@@ -39,58 +38,50 @@ public class FavoriteBook extends AppCompatActivity {
         bookList = new ArrayList<>();
         firestore = FirebaseFirestore.getInstance();
 
+        //현재 접속중인 사람 이메일
         SharedPreferences preferences = getSharedPreferences("user_prefs", MODE_PRIVATE);
         isLoggedIn = preferences.getBoolean("isLoggedIn", false);
         String email = preferences.getString("email", "");
 
-        // RecyclerView 어댑터를 초기화
-        adapter = new FavoriteBookAdapter(bookList); // 수정된 부분
+        adapter = new FavoriteBookAdapter(bookList);
         rv.setAdapter(adapter);
 
-        // Firestore에서 데이터를 가져옵니다.
-        firestore.collection("favorite") // favorite 컬렉션 이름
-                .whereEqualTo("email", preferences.getString("email", "")) // 현재 로그인한 사용자의 이메일과 일치하는 문서만 가져오기
+        // favorite DB에서 현재 로그인중인 이메일 기준으로 즐찾한 책 정보를 가져옵니다
+        firestore.collection("favorite")
+                .whereEqualTo("email", preferences.getString("email", ""))
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
                         String bookName = document.getString("bookName");
                         String bookAuthor = document.getString("bookAuthor");
-                        // 필요한 다른 필드도 가져올 수 있습니다.
 
-                        // 가져온 데이터를 모델 객체에 추가
                         FavoriteBookInfo bookInfo = new FavoriteBookInfo(bookName, bookAuthor, email);
                         bookList.add(bookInfo);
                     }
-
-                    // 데이터가 변경되었음을 어댑터에 알림
+                    //데이터 최신화
                     adapter.notifyDataSetChanged();
                 });
 
-        // 클릭 리스너 설정
+        //즐겨찾기 한 객체를 클릭했을 때
         adapter.setOnItemClickListener(new FavoriteBookAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(FavoriteBookInfo bookInfo) {
-                // 클릭 이벤트 처리
-                // bookInfo를 이용하여 필요한 작업 수행
                 String selectedBookName = bookInfo.getBookName();
                 String selectedBookAuthor = bookInfo.getBookAuthor();
 
-                // Check if the selected book exists in the bookInfo collection
+                //BookInfoPage로 가서 현재 즐찾한 책정보를 보여줍니다
                 firestore.collection("bookInfo")
                         .whereEqualTo("bookName", selectedBookName)
                         .whereEqualTo("bookAuthor", selectedBookAuthor)
                         .get()
                         .addOnSuccessListener(queryDocumentSnapshots -> {
                             if (!queryDocumentSnapshots.isEmpty()) {
-                                // The selected book exists in the bookInfo collection
-                                // Proceed with your current action
-
-                                // For example, starting a new activity
                                 Intent intent = new Intent(FavoriteBook.this, BookInfoPage.class);
                                 intent.putExtra("bookName", selectedBookName);
                                 intent.putExtra("bookAuthor", selectedBookAuthor);
                                 startActivity(intent);
                             } else {
+                                // 책정보가 없으면 팔렸거나 판매자가 내렸으므로 즐겨찾기 데이터를 삭제합니다
                                 firestore.collection("favorite")
                                         .whereEqualTo("email", preferences.getString("email", ""))
                                         .whereEqualTo("bookName", selectedBookName)
@@ -98,18 +89,12 @@ public class FavoriteBook extends AppCompatActivity {
                                         .get()
                                         .addOnSuccessListener(deleteQueryDocumentSnapshots -> {
                                             for (QueryDocumentSnapshot deleteDocument : deleteQueryDocumentSnapshots) {
-                                                // 즐겨찾기 컬렉션에서 문서 삭제
                                                 firestore.collection("favorite")
                                                         .document(deleteDocument.getId())
                                                         .delete()
                                                         .addOnSuccessListener(aVoid -> {
-                                                            // 로컬 목록에서 아이템 제거
                                                             bookList.remove(bookInfo);
-
-                                                            // 어댑터에게 아이템 삭제를 알림
                                                             adapter.notifyDataSetChanged();
-
-                                                            // 책이 제거되었음을 알리는 팝업 표시
                                                             showBookRemovedPopup();
                                                         });
                                             }
@@ -126,6 +111,8 @@ public class FavoriteBook extends AppCompatActivity {
             }
         });
     }
+
+    //정말 삭제할거냐고 팝업창을 띄웁니다
     private void showBookRemovedPopup() {
         AlertDialog.Builder builder = new AlertDialog.Builder(FavoriteBook.this);
         builder.setTitle("책이 판매되었습니다!");

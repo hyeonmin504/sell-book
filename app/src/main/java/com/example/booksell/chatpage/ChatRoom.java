@@ -1,7 +1,6 @@
 package com.example.booksell.chatpage;
 
-import android.widget.Button;
-
+//채팅룸 컨스트럭터, 게터 세터
 public class ChatRoom {
     private String seller;
     private String bookName;

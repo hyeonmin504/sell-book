@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.example.booksell.R;
 
+//mypage에서 이용 약관 페이지
 public class termsofServicee extends AppCompatActivity {
 
     TextView tv_back;
